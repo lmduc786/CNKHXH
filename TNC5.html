@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc nghiệm CNXHKH - Câu 169-215</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f0f2f5; }
+        h1 { text-align: center; color: #1a73e8; margin-bottom: 30px; }
+        .question-card { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #1a73e8; transition: transform 0.2s; }
+        .question-title { font-weight: bold; margin-bottom: 15px; font-size: 1.1em; color: #202124; }
+        .options-container { display: flex; flex-direction: column; gap: 8px; }
+        .option { display: block; padding: 12px 15px; border: 1px solid #dadce0; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: #fff; }
+        .option:hover { background-color: #f8f9fa; border-color: #1a73e8; }
+        .option.disabled { pointer-events: none; opacity: 0.8; }
+        .correct { background-color: #e6f4ea !important; border-color: #34a853 !important; color: #137333; font-weight: bold; }
+        .incorrect { background-color: #fce8e6 !important; border-color: #ea4335 !important; color: #c5221f; text-decoration: line-through; }
+        
+        #result-container { 
+            text-align: center; margin-top: 30px; padding: 30px; 
+            background: #fff; border-radius: 12px; display: none; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px solid #1a73e8;
+        }
+        .btn-submit {
+            display: block; width: 220px; margin: 40px auto; padding: 15px;
+            background-color: #1a73e8; color: white; border: none;
+            border-radius: 8px; font-size: 1.1em; cursor: pointer; font-weight: bold;
+        }
+        .btn-submit:hover { background-color: #1557b0; transform: translateY(-2px); }
+        #score-text { font-size: 2em; color: #1a73e8; font-weight: bold; margin: 10px 0; }
+        .reload-btn { background: #5f6368; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>Ôn tập Chủ nghĩa xã hội khoa học (Câu 169 - 215)</h1>
+    
+    <div id="quiz"></div>
+
+    <button class="btn-submit" onclick="showResult()">Nộp bài / Tổng kết</button>
+    
+    <div id="result-container">
+        <h2>Kết quả của bạn:</h2>
+        <div id="score-text">0/0</div>
+        <p id="evaluation" style="font-weight: bold;"></p>
+        <button class="reload-btn" onclick="location.reload()">Làm lại từ đầu</button>
+    </div>
+
+    <script>
+        const quizData = [
+            { question: "169. Cơ cấu xã hội là những cộng đồng người cùng toàn bộ những mối quan hệ xã hội do sự ... lẫn nhau của các cộng đồng ấy tạo nên: ", options: ["A. Tác động", "B. Ảnh hưởng", "C. Quyết định", "D. Xây dựng"], answer: 0 },
+            { question: "170. Trong các loại hình cơ cấu xã hội, yếu tố nào có vị trí quan trọng hàng đầu, chi phối các loại khác? ", options: ["A. Cơ cấu dân cư", "B. Cơ cấu xã hội - giai cấp", "C. Cơ cấu nghề nghiệp", "D. Cơ cấu tôn giáo"], answer: 1 },
+            { question: "171. Sự biến đổi của cơ cấu xã hội – giai cấp trong thời kỳ quá độ gắn liền và bị quy định bởi cơ cấu nào? ", options: ["A. Cơ cấu dân số", "B. Cơ cấu kinh tế", "C. Cơ cấu lãnh thổ", "D. Cơ cấu nghề nghiệp"], answer: 1 },
+            { question: "172. Theo Mác và Ăngghen, vì sao nhiều cuộc đấu tranh của công nhân Anh và Pháp giữa thế kỷ XIX thất bại? ", options: ["A. Không liên minh với trí thức", "B. Không liên minh với tư sản", "C. Không tổ chức liên minh với giai cấp nông dân", "D. Không liên minh với tiểu chủ"], answer: 2 },
+            { question: "173. Trong cách mạng XHCN, giai cấp công nhân phải liên minh với giai cấp, tầng lớp nào? ", options: ["A. Nông dân và tư sản", "B. Trí thức và tiểu chủ", "C. Trí thức và doanh nhân", "D. Giai cấp nông dân và các tầng lớp nhân dân lao động"], answer: 3 },
+            { question: "174. Mỗi giai cấp, tầng lớp trong cơ cấu xã hội - giai cấp đặt dưới sự lãnh đạo của tổ chức nào? ", options: ["A. Đảng Cộng sản", "B. Nhà nước", "C. Giai cấp thống trị", "D. Người đứng đầu nhóm"], answer: 0 },
+            { question: "175. Trong hệ thống xã hội, vị trí, vai trò của các loại cơ cấu xã hội có ngang bằng nhau không? ", options: ["A. Không ngang bằng nhau", "B. Tất cả ngang bằng", "C. Tùy vào vị trí", "D. Do xã hội quy định"], answer: 0 },
+            { question: "176. “Nguyên tắc cao nhất của chuyên chính là duy trì khối liên minh giữa giai cấp vô sản và ...” ", options: ["A. Trí thức", "B. Nông dân", "C. Tư sản", "D. Tiểu thương"], answer: 1 },
+            { question: "177. Cơ cấu xã hội - giai cấp là căn cứ để Nhà nước: ", options: ["A. Xây dựng các chính sách trên mọi lĩnh vực", "B. Xây dựng quyền lực", "C. Xây dựng hệ thống chính trị", "D. Xây dựng quốc phòng"], answer: 0 },
+            { question: "178. Lênin xem liên minh nào là hình thức đặc biệt trong giai đoạn giành và giữ chính quyền? ", options: ["A. Giai cấp công nhân với giai cấp nông dân và các tầng lớp xã hội khác", "B. Công nhân, nông dân và trí thức", "C. Công nhân, nông dân và tiểu tư sản", "D. Công nhân, trí thức và doanh nhân"], answer: 0 },
+            { question: "179. Thời kỳ quá độ, cơ cấu xã hội - giai cấp biến đổi trong mối quan hệ như thế nào? ", options: ["A. Vừa đấu tranh, vừa liên minh hướng tới xích lại gần nhau", "B. Vừa đấu tranh vừa liên minh, bớt bất bình đẳng", "C. Vừa đấu tranh vừa liên minh, xóa áp bức bóc lột", "D. Vừa đấu tranh vừa liên minh, xóa trấn áp"], answer: 0 },
+            { question: "180. Nội dung nào là cơ sở vật chất - kỹ thuật quyết định nhất của liên minh tại VN? ", options: ["A. Nội dung kinh tế của liên minh", "B. Nội dung chính trị", "C. Nội dung văn hóa", "D. Nội dung kinh tế và chính trị"], answer: 0 },
+            { question: "181. Vấn đề mang tính nguyên tắc đảm bảo thắng lợi Cách mạng tháng Mười Nga 1917 là: ", options: ["A. Liên minh công, nông", "B. Liên minh công, nông, trí thức", "C. Liên minh công, nông, lao động khác", "D. Liên minh công, nông, tiểu tư sản"], answer: 0 },
+            { question: "182. Xu hướng biến đổi cơ cấu xã hội - giai cấp đa dạng và thống nhất ở VN do yếu tố nào? ", options: ["A. Kết cấu kinh tế nhiều thành phần", "B. Trình độ không đồng đều", "C. Vai trò lãnh đạo công nhân", "D. Sự liên kết các giai cấp"], answer: 0 },
+            { question: "183. Nội dung quan trọng nhất trong các nội dung liên minh tại Việt Nam? ", options: ["A. Kinh tế", "B. Chính trị", "C. Tư tưởng", "D. Văn hoá - xã hội"], answer: 0 },
+            { question: "184. Giai cấp nào tiêu biểu, giữ vai trò chủ đạo của phương thức sản xuất mới? ", options: ["A. Giai cấp công nhân", "B. Giai cấp nông dân", "C. Giai cấp tư sản", "D. Doanh nhân, trí thức"], answer: 0 },
+            { question: "185. Cuộc đấu tranh giai cấp đặt ra nhu cầu cho giai cấp ở vị trí trung tâm cần phải: ", options: ["A. Liên minh với các giai cấp, tầng lớp khác có lợi ích phù hợp với mình", "B. Liên minh với giai cấp đông đảo", "C. Liên minh trí thức", "D. Liên minh tôn giáo"], answer: 0 },
+            { question: "186. Công nhân phải liên minh với ai để tạo sức mạnh tổng hợp cho thắng lợi cách mạng? ", options: ["A. Giai cấp nông dân và các tầng lớp nhân dân lao động", "B. Nông dân và tư sản", "C. Tư sản và doanh nghiệp", "D. Trí thức và tổ chức chính trị"], answer: 0 },
+            { question: "187. Lênin xem liên minh công nhân - nông dân và các tầng lớp khác là: ", options: ["A. Liên minh tất yếu", "B. Liên minh ngẫu nhiên", "C. Liên minh quan trọng", "D. Hình thức liên minh đặc biệt"], answer: 3 },
+            { question: "188. Sự gắn bó chặt chẽ giữa công nghiệp, nông nghiệp, dịch vụ tạo thành: ", options: ["A. Cơ cấu công - nông - dịch vụ", "B. Cơ cấu kinh tế quốc dân thống nhất", "C. Cơ cấu nông - lâm - ngư", "D. Cơ cấu vùng lãnh thổ"], answer: 1 },
+            { question: "189. Cơ sở quyết định hình thành liên minh công - nông - trí thức là gì? ", options: ["A. Những lợi ích cơ bản thống nhất với nhau", "B. Cùng kẻ thù tư sản", "C. Sự áp đặt của công nhân", "D. Mục tiêu chính trị công nhân"], answer: 0 },
+            { question: "190. Sau 1986, cơ cấu xã hội - giai cấp đa dạng thay thế cho: ", options: ["A. Cơ cấu xã hội đơn giản", "B. Cơ cấu phức tạp", "C. Cơ cấu tất nhiên", "D. Cơ cấu ngẫu nhiên"], answer: 0 },
+            { question: "191. Trong CM 4.0, vai trò của đội ngũ trí thức thể hiện như thế nào? ", options: ["A. Trở nên chủ lực", "B. Trở nên chủ đạo", "C. Trở nên mạnh mẽ", "D. Đội ngũ trí thức càng trở nên quan trọng"], answer: 3 },
+            { question: "192. Đảng chủ trương xây dựng đội ngũ doanh nhân Việt Nam thành: ", options: ["A. Một đội ngũ vững mạnh", "B. Đội ngũ tiên phong", "C. Đội ngũ cách mạng", "D. Đội ngũ tiên tiến nhất"], answer: 0 },
+            { question: "193. Nội dung văn hóa - xã hội của liên minh đòi hỏi thực hiện mục tiêu gì? ", options: ["A. Tiến bộ và bình đẳng", "B. Tiến bộ và văn minh", "C. Tiến bộ và công bằng xã hội", "D. Tiến bộ và phát triển"], answer: 2 },
+            { question: "194. Để cơ cấu xã hội biến đổi tích cực, phải dựa trên cơ sở nào? ", options: ["A. Tăng trưởng nhanh và ổn định", "B. Tạo bước đột phá", "C. Tạo đà phát triển", "D. Tăng trưởng, phát triển kinh tế nhanh, bền vững"], answer: 3 },
+            { question: "195. Thúc đẩy khoa học công nghệ nhằm phát huy vai trò của: ", options: ["A. Các chủ thể trong khối liên minh công – nông – trí thức", "B. Công nhân - sản xuất tiên phong", "C. Nông dân - sản xuất nông nghiệp", "D. Trí thức - lực lượng sáng tạo"], answer: 0 },
+            { question: "196. Nâng cao nhận thức về liên minh nhằm hướng tới: ", options: ["A. Tạo động lực, đồng thuận xã hội", "B. Phản biện xã hội", "C. Nâng cao dân trí", "D. Phát triển con người"], answer: 0 },
+            { question: "197. Khi cơ cấu kinh tế thay đổi, cơ cấu xã hội - giai cấp sẽ: ", options: ["A. Công nhân đổi nhanh, khác đổi chậm", "B. Chỉ công nhân đổi", "C. Có nhóm đổi, có nhóm không", "D. Biến đổi trong tổng thể và trong nội bộ từng giai cấp, tầng lớp"], answer: 3 },
+            { question: "198. Liên kết công - nông - khoa học công nghệ thực chất là liên minh: ", options: ["A. Liên minh giai cấp công nhân – nông dân – trí thức", "B. Công nhân - tư sản - trí thức", "C. Nông dân - trí thức - tư sản", "D. Địa chủ - tư sản - trí thức"], answer: 0 },
+            { question: "199. Động lực phát triển trong các xã hội có giai cấp là: ", options: ["A. Mâu thuẫn giai cấp", "B. Đấu tranh giai cấp", "C. Liên minh giai cấp", "D. Áp bức giai cấp"], answer: 1 },
+            { question: "200. CNXHKH tập trung nghiên cứu loại hình cơ cấu xã hội nào? ", options: ["A. Cơ cấu xã hội - giai cấp, làm cơ sở nghiên cứu liên minh", "B. Cơ cấu nghề nghiệp", "C. Cơ cấu dân tộc", "D. Cơ cấu dân cư"], answer: 0 },
+            { question: "201. Yếu tố quyết định mối quan hệ giữa các giai cấp thời kỳ quá độ là: ", options: ["A. Cùng chung sức cải tạo xã hội cũ và xây dựng xã hội mới trên mọi lĩnh vực", "B. Cải tạo trên lĩnh vực kinh tế", "C. Cải tạo văn hóa tư tưởng", "D. Cải tạo chính trị xã hội"], answer: 0 },
+            { question: "202. Tại sao cơ cấu xã hội - giai cấp quan trọng hàng đầu? ", options: ["A. Liên minh 3 ngành", "B. Vì liên quan các đảng, nhà nước, sở hữu TLSX, quản lý và phân phối", "C. Vận động loài người", "D. Hòa hợp dân tộc"], answer: 1 },
+            { question: "203. Giai cấp nào là lực lượng sản xuất cơ bản và chính trị - xã hội to lớn? ", options: ["A. Giai cấp công nhân, giai cấp nông dân và tầng lớp lao động khác", "B. Công nhân, doanh nhân, trí thức", "C. Công nhân, nông dân, doanh nhân", "D. Công nhân, nông dân, thanh niên"], answer: 0 },
+            { question: "204. Vì sao công, nông, dịch vụ, khoa học công nghệ tất yếu phải liên minh? ", options: ["A. Mục đích chính trị", "B. Vì lợi ích kinh tế", "C. Mục tiêu xã hội", "D. Mục tiêu văn hóa"], answer: 1 },
+            { question: "205. Nhiệm vụ cơ bản thời kỳ quá độ lên CNXH ở Việt Nam hiện nay? ", options: ["A. Ổn định chính trị", "B. Dân giàu nước mạnh...", "C. Phát triển kinh tế, đẩy mạnh công nghiệp hóa - hiện đại hóa", "D. Hoàn thành CM 4.0"], answer: 2 },
+            { question: "206. Lực lượng đi đầu của quá trình CNH, HĐH ở Việt Nam là: ", options: ["A. Trí thức", "B. Doanh nhân", "C. Nông dân", "D. Giai cấp công nhân"], answer: 3 },
+            { question: "207. Lực lượng giữ vị trí chiến lược trong CNH, HĐH nông nghiệp, nông thôn? ", options: ["A. Trí thức", "B. Doanh nhân", "C. Giai cấp nông dân", "D. Công nhân"], answer: 2 },
+            { question: "208. Trong thời kỳ quá độ ở Việt Nam, giai cấp nông dân biến đổi thế nào? ", options: ["A. Có xu hướng giảm dần về số lượng và tỉ lệ", "B. Tăng dần số lượng", "C. Ổn định số lượng", "D. Tăng số lượng và chất lượng"], answer: 0 },
+            { question: "209. Cơ cấu xã hội - giai cấp là quan trọng nhất vì: ", options: ["A. Quyết định liên minh 3 ngành", "B. Xã hội phát triển do nhiều bộ phận", "C. Đảng và nhà nước quyết định", "D. Quyết định bản chất và xu hướng vận động của các loại hình cơ cấu xã hội khác"], answer: 3 },
+            { question: "210. Biến đổi cơ cấu xã hội - giai cấp ở VN làm xuất hiện và phát triển tầng lớp: ", options: ["A. Trí thức", "B. Tầng lớp doanh nhân", "C. Nông dân", "D. Phụ nữ"], answer: 1 },
+            { question: "211. Sự biến đổi của cơ cấu xã hội - giai cấp tất yếu sẽ: ", options: ["A. Ảnh hưởng cơ cấu dân số", "B. Tác động đến sự biến đổi của toàn bộ cơ cấu xã hội", "C. Ảnh hưởng cơ cấu nghề nghiệp", "D. Ảnh hưởng cơ cấu dân tộc"], answer: 1 },
+            { question: "212. Liên minh giai cấp, tầng lớp thời kỳ quá độ được hiểu là: ", options: ["A. Là sự liên kết, hợp tác, hỗ trợ nhau giữa các giai cấp, tầng lớp", "B. Liên kết hợp tác và đấu tranh", "C. Liên kết hợp tác và phụ thuộc", "D. Liên kết hợp tác và độc lập"], answer: 0 },
+            { question: "213. Cơ cấu xã hội - giai cấp tồn tại thông qua quan hệ: ", options: ["A. Cung cầu, sản xuất tiêu dùng", "B. Sở hữu, sản xuất, tái sản xuất", "C. Sở hữu, quản lý, tiêu dùng", "D. Sở hữu tư liệu sản xuất, tổ chức quản lý, phân phối thu nhập"], answer: 3 },
+            { question: "214. Vì sao biến đổi cơ cấu xã hội - giai cấp tác động toàn bộ cơ cấu xã hội? ", options: ["A. Vì tác động đến tất cả các lĩnh vực đời sống, mọi hoạt động và thành viên", "B. Tác động mọi ngành nghề", "C. Tác động mọi thành phần kinh tế", "D. Tác động phân bố dân cư"], answer: 0 },
+            { question: "215. Trong hệ thống xã hội, chính sách nào đặt hàng đầu? ", options: ["A. Cơ cấu nghề nghiệp", "B. Các chính sách liên quan đến cơ cấu xã hội - giai cấp", "C. Cơ cấu dân cư", "D. Cơ cấu tôn giáo"], answer: 1 }
+        ];
+
+        let correctCount = 0;
+        const quizContainer = document.getElementById('quiz');
+
+        function loadQuiz() {
+            quizData.forEach((q, index) => {
+                const qCard = document.createElement('div');
+                qCard.classList.add('question-card');
+                qCard.id = `q-card-${index}`;
+                let optionsHtml = '';
+                q.options.forEach((opt, optIndex) => {
+                    optionsHtml += `<div class="option" id="label-${index}-${optIndex}" onclick="checkAnswer(${index}, ${optIndex})">${opt}</div>`;
+                });
+                qCard.innerHTML = `<div class="question-title">${q.question}</div><div id="options-${index}" class="options-container">${optionsHtml}</div>`;
+                quizContainer.appendChild(qCard);
+            });
+        }
+
+        window.checkAnswer = function(qIdx, selVal) {
+            const q = quizData[qIdx];
+            const allOptions = document.querySelectorAll(`#options-${qIdx} .option`);
+            
+            if (allOptions[0].classList.contains('disabled')) return;
+            allOptions.forEach(opt => opt.classList.add('disabled'));
+            
+            if (selVal === q.answer) {
+                document.getElementById(`label-${qIdx}-${selVal}`).classList.add('correct');
+                correctCount++;
+            } else {
+                document.getElementById(`label-${qIdx}-${selVal}`).classList.add('incorrect');
+                document.getElementById(`label-${qIdx}-${q.answer}`).classList.add('correct');
+            }
+
+            // Tự động cuộn đến câu tiếp theo sau 600ms
+            setTimeout(() => {
+                const nextCard = document.getElementById(`q-card-${qIdx + 1}`);
+                if (nextCard) {
+                    nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 600);
+        };
+
+        window.showResult = function() {
+            const container = document.getElementById('result-container');
+            const scoreText = document.getElementById('score-text');
+            const evaluation = document.getElementById('evaluation');
+            
+            container.style.display = 'block';
+            scoreText.innerText = `${correctCount} / ${quizData.length}`;
+            
+            let percent = (correctCount / quizData.length) * 100;
+            if(percent >= 80) evaluation.innerText = "Xuất sắc! Bạn đã sẵn sàng để vượt qua kỳ thi.";
+            else if(percent >= 50) evaluation.innerText = "Khá tốt! Nhưng hãy ôn lại các câu sai để chắc chắn hơn.";
+            else evaluation.innerText = "Cần cố gắng thêm! Phần cơ cấu xã hội - giai cấp này khá quan trọng đấy.";
+            
+            container.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        loadQuiz();
+    </script>
+</body>
+</html>

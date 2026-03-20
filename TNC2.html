@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc nghiệm CNXHKH - Câu 31-80</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f0f2f5; }
+        h1 { text-align: center; color: #1a73e8; margin-bottom: 30px; }
+        .question-card { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #1a73e8; transition: transform 0.2s; }
+        .question-title { font-weight: bold; margin-bottom: 15px; font-size: 1.1em; color: #202124; }
+        .options-container { display: flex; flex-direction: column; gap: 8px; }
+        .option { display: block; padding: 12px 15px; border: 1px solid #dadce0; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: #fff; }
+        .option:hover { background-color: #f8f9fa; border-color: #1a73e8; }
+        .option.disabled { pointer-events: none; opacity: 0.8; }
+        .correct { background-color: #e6f4ea !important; border-color: #34a853 !important; color: #137333; font-weight: bold; }
+        .incorrect { background-color: #fce8e6 !important; border-color: #ea4335 !important; color: #c5221f; text-decoration: line-through; }
+        
+        /* CSS cho phần kết quả */
+        #result-container { 
+            text-align: center; margin-top: 30px; padding: 30px; 
+            background: #fff; border-radius: 12px; display: none; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px solid #1a73e8;
+        }
+        .btn-submit {
+            display: block; width: 220px; margin: 40px auto; padding: 15px;
+            background-color: #1a73e8; color: white; border: none;
+            border-radius: 8px; font-size: 1.1em; cursor: pointer; font-weight: bold;
+        }
+        .btn-submit:hover { background-color: #1557b0; }
+        #score-text { font-size: 2em; color: #1a73e8; font-weight: bold; margin: 10px 0; }
+        .reload-btn { background: #5f6368; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>Ôn tập Chủ nghĩa xã hội khoa học (Câu 31 - 80)</h1>
+    <div id="quiz"></div>
+
+    <button class="btn-submit" onclick="showResult()">Nộp bài & Xem kết quả</button>
+    
+    <div id="result-container">
+        <h2>Kết quả của bạn</h2>
+        <div id="score-text">0/0</div>
+        <p id="evaluation" style="font-weight: bold;"></p>
+        <button class="reload-btn" onclick="location.reload()">Làm lại bài mới</button>
+    </div>
+
+    <script>
+        const quizData = [
+            { question: "31. C. Mác đã dùng thuật ngữ nào để nói về giai cấp công nhân?", options: ["A. Giai cấp lao động thế kỷ XVIII", "B. Giai cấp vô sản", "C. Giai cấp nông dân hiện đại", "D. Giai cấp lao động làm thuê thế kỷ XVIII"], answer: 1 },
+            { question: "32. Về phương diện kinh tế - xã hội, giai cấp công nhân có đặc điểm cơ bản gì?", options: ["A. Là giai cấp sở hữu tư liệu sản xuất chủ yếu", "B. Vận hành các công cụ sản xuất thủ công, nhỏ lẻ", "C. Vận hành các công cụ sản xuất công nghiệp hiện đại và xã hội hóa cao", "D. Không sở hữu tư liệu sản xuất chủ yếu"], answer: 2 },
+            { question: "33. Về phương diện chính trị - xã hội, giai cấp công nhân trong xã hội tư bản có đặc điểm gì?", options: ["A. Sở hữu tư liệu sản xuất chủ yếu", "B. Vận hành công cụ thủ công nhỏ lẻ", "C. Vận hành máy móc hiện đại", "D. Không sở hữu tư liệu sản xuất, phải bán sức lao động"], answer: 3 },
+            { question: "34. Đặc điểm lao động cơ bản của giai cấp công nhân là gì?", options: ["A. Lao động bằng phương thức công nghiệp", "B. Lao động bằng phương thức nông nghiệp", "C. Tạo ra sản phẩm tri thức, tư tưởng", "D. Lao động thủ công gia truyền"], answer: 0 },
+            { question: "35. Đâu là đặc điểm phân biệt công nhân với nông dân, trí thức?", options: ["A. Sản xuất nông nghiệp", "B. Lao động trí óc phức tạp sáng tạo", "C. Vận hành công cụ sản xuất công nghiệp tạo của cải vật chất", "D. Sản xuất nhỏ lẻ cá thể"], answer: 2 },
+            { question: "36. Giai cấp công nhân ra đời khi nào?", options: ["A. Thế kỷ XVII", "B. Đầu thế kỷ XVIII", "C. Cuối thế kỷ XVIII", "D. Thế kỷ XIX"], answer: 2 },
+            { question: "37. Vì sao giai cấp công nhân phải bán sức lao động cho nhà tư bản?", options: ["A. Muốn học công nghệ", "B. Muốn nâng cao trình độ", "C. Không sở hữu tài sản", "D. Không sở hữu tư liệu sản xuất chủ yếu của xã hội"], answer: 3 },
+            { question: "38. Chọn đáp án đúng về giai cấp công nhân trong xã hội tư bản:", options: ["A. Những người lao động làm thuê nói chung", "B. Làm thuê trong nền sản xuất công nghiệp tư bản chủ nghĩa", "C. Làm thuê trong sản xuất thủ công", "D. Những người bán sức lao động"], answer: 1 },
+            { question: "39. Điểm khác nhau chủ yếu giữa công nhân và tư sản là gì?", options: ["A. Ra đời gắn với TBCN", "B. Tham gia vào sản xuất", "C. Công nhân không sở hữu tư liệu sản xuất chủ yếu", "D. Công nhân sở hữu tư liệu sản xuất chủ yếu"], answer: 2 },
+            { question: "40. Mâu thuẫn cơ bản giữa giai cấp công nhân với giai cấp tư sản là gì?", options: ["A. Trình độ sản xuất", "B. Lợi ích kinh tế", "C. Mục đích sản xuất", "D. Cách thức tổ chức"], answer: 1 },
+            { question: "41. Mâu thuẫn cơ bản công nhân - tư sản bắt nguồn từ nguyên nhân nào?", options: ["A. Chế độ sở hữu tư nhân về tư liệu sản xuất chủ yếu", "B. Tính chất xã hội hóa và chế độ công hữu", "C. Sự phát triển khoa học công nghệ", "D. Tính chất tư nhân của lực lượng sản xuất"], answer: 0 },
+            { question: "42. Mâu thuẫn công nhân - tư sản về mặt xã hội biểu hiện thế nào?", options: ["A. Quản lý lao động", "B. Phân phối lợi ích, kết quả lao động", "C. Trình độ lao động", "D. Tổ chức sản xuất"], answer: 1 },
+            { question: "43. Chọn câu đúng về mối quan hệ giữa sức lao động công nhân và giá trị thặng dư:", options: ["A. Sức lao động của công nhân là nguồn gốc của giá trị thặng dư", "B. Độc lập với nhau", "C. Không có mối liên hệ", "D. Sức lao động là kết quả thặng dư"], answer: 0 },
+            { question: "44. Lựa chọn nội dung KHÔNG đúng về giai cấp công nhân:", options: ["A. Lao động phương thức công nghiệp", "B. Sản phẩm nền đại công nghiệp", "C. Đại biểu lực lượng sản xuất tiên tiến", "D. Không quyết định sự phát triển xã hội hiện đại"], answer: 3 },
+            { question: "45. Vì sao công nhân có phẩm chất đặc biệt về kỷ luật, hợp tác?", options: ["A. Xuất thân nông nghiệp", "B. Xuất thân thủ công", "C. Làm việc trong xã hội khoa học", "D. Rèn luyện trong sản xuất công nghiệp và đấu tranh"], answer: 3 },
+            { question: "46. Mác và Ăngghen dựa vào phát kiến nào luận chứng sứ mệnh công nhân?", options: ["A. Triết học Đức", "B. Duy vật lịch sử và Học thuyết giá trị thặng dư", "C. Kinh tế cổ điển Anh", "D. Triết học Đức và Kinh tế Anh"], answer: 1 },
+            { question: "47. Lựa chọn nội dung chính xác nhất về sứ mệnh lịch sử tổng quát của công nhân:", options: ["A. Giải phóng khỏi nghèo nàn", "B. Xóa bỏ bóc lột, xóa bỏ TBCN, xây dựng xã hội cộng sản", "C. Xóa bỏ TBCN, xây dựng văn minh", "D. Lãnh đạo xóa bỏ nghèo nàn lạc hậu"], answer: 1 },
+            { question: "48. Vì sao cần xóa bỏ chế độ tư hữu, thiết lập chế độ công hữu?", options: ["A. Công hữu bóc lột ít hơn", "B. Chế độ tư hữu là nguồn gốc áp bức bóc lột", "C. Mong muốn của nhân dân", "D. Tư hữu tồn tại quá lâu"], answer: 1 },
+            { question: "49. Anh/Chị hiểu như thế nào về chế độ sở hữu xã hội (công hữu)?", options: ["A. Không còn tài sản riêng", "B. Mọi của cải là của chung", "C. Tư liệu sản xuất chủ yếu thuộc về toàn xã hội", "D. Mọi tư liệu sản xuất thuộc về xã hội"], answer: 2 },
+            { question: "50. Khi thiết lập công hữu, cá nhân có quyền sở hữu tư nhân không?", options: ["A. Không tồn tại", "B. Tồn tại một thời gian", "C. Tư liệu sản xuất chủ yếu vẫn tồn tại", "D. Vẫn tồn tại, ngoại trừ tư liệu sản xuất chủ yếu"], answer: 3 },
+            { question: "51. Sứ mệnh lịch sử công nhân trong lĩnh vực kinh tế:", options: ["A. Nhân tố duy nhất tạo tiền đề TBCN", "B. Thiết lập chế độ tư hữu", "C. Xây dựng hệ giá trị mới", "D. Nhân tố hàng đầu lực lượng sản xuất, đại biểu quan hệ sản xuất mới"], answer: 3 },
+            { question: "52. Sứ mệnh lịch sử công nhân trong lĩnh vực chính trị?", options: ["A. Tạo tiền đề XHCN", "B. Thiết lập chế độ công hữu", "C. Lật đổ thống trị, xóa bỏ chế độ áp bức bóc lột", "D. Xây dựng hệ giá trị mới"], answer: 2 },
+            { question: "53. Vì sao giành chính quyền về tay công nhân là tất yếu?", options: ["A. Nhà nước tư sản không thừa nhận công nhân", "B. Nhà nước là công cụ tư sản trấn áp công nhân, bảo vệ tư hữu", "C. Nhà nước tư sản không có quyền lợi", "D. Chỉ khi giành được chính quyền mới có tự do"], answer: 1 },
+            { question: "54. Sứ mệnh công nhân trong lĩnh vực văn hóa, tư tưởng?", options: ["A. Xây dựng hệ giá trị mới, cải tạo ý thức cũ lạc hậu", "B. Nhân tố hàng đầu lực lượng sản xuất", "C. Tiến hành cách mạng chính trị", "D. Thiết lập chế độ công hữu"], answer: 0 },
+            { question: "55. Nội dung thuộc điều kiện khách quan quy định sứ mệnh công nhân?", options: ["A. Địa vị chính trị - xã hội của công nhân", "B. Sự phát triển bản thân công nhân", "C. Lập ra chính đảng", "D. Liên minh nông dân"], answer: 0 },
+            { question: "56. Nội dung thuộc địa vị kinh tế quy định sứ mệnh công nhân?", options: ["A. Phát triển số lượng chất lượng", "B. Lập ra chính đảng", "C. Đại diện phương thức sản xuất tiên tiến, lực lượng hiện đại", "D. Liên minh nông dân"], answer: 2 },
+            { question: "57. Nội dung thuộc địa vị chính trị - xã hội quy định sứ mệnh công nhân?", options: ["A. Gắn với lực lượng sản xuất hiện đại", "B. Chủ thể phương thức sản xuất tiên tiến", "C. Không sở hữu tư liệu sản xuất, lợi ích đối lập trực tiếp tư sản", "D. Sở hữu tư liệu sản xuất"], answer: 2 },
+            { question: "58. Vì sao công nhân quyết định phá vỡ quan hệ sản xuất TBCN?", options: ["A. Đại diện khoa học hiện đại", "B. Đi đầu phong trào đấu tranh", "C. Đại diện lực lượng sản xuất tiên tiến xã hội hóa cao", "D. Đông đảo nhất"], answer: 2 },
+            { question: "59. Điều kiện quan trọng nhất để thay thế QHSX TBCN bằng XHCN?", options: ["A. Sản xuất công nghiệp hiện đại", "B. Tăng số lượng chất lượng", "C. Đoàn kết toàn thế giới", "D. Mâu thuẫn LLSX xã hội hóa cao với tư hữu TBCN"], answer: 3 },
+            { question: "60. Nhân tố chủ quan quan trọng nhất để công nhân thắng lợi?", options: ["A. Phát triển số lượng chất lượng", "B. Trình độ lý luận", "C. Đoàn kết nhân dân", "D. Sự ra đời của Đảng Cộng sản lãnh đạo"], answer: 3 },
+            { question: "61. Quy luật chung dẫn đến sự ra đời của Đảng cộng sản là gì?", options: ["A. Phong trào công nhân kết hợp lý luận", "B. Phong trào công nhân kết hợp CN Mác-Lênin và yêu nước", "C. Phong trào công nhân kết hợp CM giải phóng dân tộc", "D. Phong trào công nhân kết hợp chủ nghĩa Mác – Lênin"], answer: 3 },
+            { question: "62. Sự ra đời của Đảng cộng sản Việt Nam là kết hợp những yếu tố nào?", options: ["A. Phong trào công nhân và lý luận", "B. Phong trào công nhân, CN Mác-Lênin và phong trào yêu nước", "C. Phong trào công nhân, CN Mác-Lênin và giải phóng dân tộc", "D. Phong trào công nhân và CN Mác-Lênin"], answer: 1 },
+            { question: "63. Điểm tương đối ổn định của công nhân hiện nay so với thế kỷ XIX?", options: ["A. Đời sống trung lưu hóa", "B. Lao động trí óc chân tay kết hợp", "C. Lao động trí óc tạo tri thức", "D. Vẫn là lực lượng sản xuất hàng đầu và bị bóc lột thặng dư"], answer: 3 },
+            { question: "64. Sự biến đổi khác biệt của công nhân hiện đại so với thế kỷ XIX?", options: ["A. Trí tuệ hóa và làm chủ tư hữu", "B. Xu hướng trung lưu hóa và trí tuệ hóa", "C. Lao động trí óc phục vụ tinh thần", "D. Chuyển hẳn sang lao động trí óc"], answer: 1 },
+            { question: "65. Phân biệt giai cấp công nhân trí thức với tầng lớp trí thức:", options: ["A. Công nhân trí thức tạo sản phẩm phục vụ đời sống", "B. Hao phí trí lực đòi hỏi trình độ cao", "C. Hàm lượng chất xám trong sản phẩm", "D. Công nhân trí thức tạo của cải vật chất, trí thức tạo giá trị tinh thần"], answer: 3 },
+            { question: "66. Xu hướng trung lưu hóa có làm thay đổi địa vị kinh tế công nhân không?", options: ["A. Thay đổi vì đã trở thành giai cấp sở hữu", "B. Thay đổi vì không còn bị bóc lột", "C. Không thay đổi vì sở hữu cổ phần nhỏ, không có quyền quyết định", "D. Không thay đổi vì vẫn đại diện phương thức sản xuất tiên tiến"], answer: 2 },
+            { question: "67. Xu hướng trung lưu hóa có làm thay đổi địa vị chính trị - xã hội công nhân không?", options: ["A. Có vì đã thành chủ sở hữu", "B. Có vì không còn bị bóc lột", "C. Không thay đổi vì sở hữu cổ phần nhỏ, chưa thành giai cấp sở hữu chủ yếu", "D. Không thay đổi vì vẫn đại diện phương thức sản xuất tiên tiến"], answer: 2 },
+            { question: "68. Biến đổi hiện nay có làm thay đổi sứ mệnh lịch sử công nhân không?", options: ["A. Không vì đã thành giai cấp lãnh đạo", "B. Có vì đã lãnh đạo thành công cách mạng", "C. Không vì địa vị kinh tế chính trị vẫn quy định vai trò tiên phong xóa bỏ bóc lột", "D. Không vì vẫn là giai cấp tiên tiến"], answer: 2 },
+            { question: "69. Sự ra đời công nhân Việt Nam khác thế giới thế nào?", options: ["A. Ra đời trước tư sản, gắn với chính sách thực dân Pháp", "B. Ra đời cùng CM giải phóng dân tộc", "C. Ra đời khi thực hiện CM công nghiệp lần 1", "D. Ra đời cùng CM công nghiệp lần 2"], answer: 0 },
+            { question: "70. Nhận định KHÔNG đúng với đặc điểm giai cấp công nhân Việt Nam?", options: ["A. Ra đời trước tư sản", "B. Ra đời cùng CM giải phóng dân tộc, sau khi có Đảng", "C. Sớm giác ngộ sứ mệnh lịch sử", "D. Gắn bó mật thiết với nhân dân"], answer: 1 },
+            { question: "71. Đặc điểm cơ bản của giai cấp công nhân Việt Nam:", options: ["A. Ra đời cùng CM giải phóng dân tộc", "B. Sản phẩm nền sản xuất hiện đại lần 1", "C. Sớm giác ngộ sứ mệnh lịch sử qua đấu tranh chống thực dân", "D. Có đầy đủ phẩm chất cách mạng vì là sản phẩm công nghiệp hiện đại"], answer: 2 },
+            { question: "72. Biến đổi của công nhân Việt Nam hiện nay so với đầu thế kỷ XX:", options: ["A. Tăng số lượng chất lượng, đi đầu công nghiệp hóa hiện đại hóa", "B. Đã thành giai cấp lãnh đạo giải phóng dân tộc", "C. Đã thực hiện thành công xây dựng CNXH", "D. Đang phát triển để tiếp tục mục tiêu độc lập dân tộc"], answer: 0 },
+            { question: "73. Nhận định KHÔNG đúng về biến đổi công nhân VN hiện nay?", options: ["A. Tăng số lượng chất lượng", "B. Đã thành giai cấp lãnh đạo CM giải phóng dân tộc", "C. Đa dạng cơ cấu nghề nghiệp", "D. Công nhân tri thức nắm khoa học công nghệ"], answer: 1 },
+            { question: "74. Sứ mệnh công nhân Việt Nam hiện nay trong lĩnh vực kinh tế?", options: ["A. Đi đầu trong công nghiệp hóa, hiện đại hóa đất nước", "B. Đấu tranh giành độc lập", "C. Giải phóng dân tộc", "D. Đi đầu bảo vệ độc lập"], answer: 0 },
+            { question: "75. Sứ mệnh công nhân Việt Nam hiện nay trong lĩnh vực chính trị?", options: ["A. Đi đầu công nghiệp hóa", "B. Đấu tranh giành độc lập", "C. Giải phóng dân tộc", "D. Tăng cường xây dựng Đảng, ngăn chặn suy thoái"], answer: 3 },
+            { question: "76. Nhận định KHÔNG đúng với nội dung chính trị của công nhân VN hiện nay?", options: ["A. Tăng cường lãnh đạo của Đảng", "B. Giữ bản chất giai cấp công nhân của Đảng", "C. Chỉnh đốn Đảng, ngăn chặn suy thoái", "D. Đi đầu trong công nghiệp hóa hiện đại hóa"], answer: 3 },
+            { question: "77. Nhận định KHÔNG đúng với nội dung văn hóa tư tưởng công nhân VN hiện nay?", options: ["A. Xây dựng văn hóa đậm bản sắc dân tộc", "B. Xây dựng con người mới XHCN", "C. Bảo vệ sự trong sáng của CN Mác-Lênin", "D. Chỉnh đốn Đảng, ngăn chặn suy thoái"], answer: 3 },
+            { question: "78. Lựa chọn KHÔNG đúng về sự ra đời Đảng Cộng sản Việt Nam?", options: ["A. Ra đời khi đất nước là thuộc địa", "B. Được thành lập ở Việt Nam", "C. Ra đời năm 1930", "D. Hợp nhất từ 3 tổ chức Cộng sản"], answer: 1 },
+            { question: "79. Đảng và Nhà nước ta chủ trương mấy giải pháp xây dựng công nhân hiện nay?", options: ["A. 4", "B. 5", "C. 6", "D. 7"], answer: 1 },
+            { question: "80. Nhiệm vụ then chốt công nhân Việt Nam cần thực hiện hiện nay?", options: ["A. Phát triển sản xuất hiện đại", "B. Xây dựng chỉnh đốn Đảng trong sạch vững mạnh", "C. Phát triển kinh tế tri thức", "D. Giữ gìn bản sắc dân tộc"], answer: 1 }
+        ];
+
+        let score = 0;
+        const quizContainer = document.getElementById('quiz');
+
+        function loadQuiz() {
+            quizData.forEach((q, index) => {
+                const qCard = document.createElement('div');
+                qCard.classList.add('question-card');
+                qCard.id = `q-card-${index}`;
+                let optionsHtml = '';
+                q.options.forEach((opt, optIndex) => {
+                    optionsHtml += `<div class="option" id="label-${index}-${optIndex}" onclick="checkAnswer(${index}, ${optIndex})">${opt}</div>`;
+                });
+                qCard.innerHTML = `<div class="question-title">${q.question}</div><div id="options-${index}" class="options-container">${optionsHtml}</div>`;
+                quizContainer.appendChild(qCard);
+            });
+        }
+
+        window.checkAnswer = function(qIdx, selVal) {
+            const q = quizData[qIdx];
+            const allOptions = document.querySelectorAll(`#options-${qIdx} .option`);
+            
+            if (allOptions[0].classList.contains('disabled')) return;
+            allOptions.forEach(opt => opt.classList.add('disabled'));
+            
+            if (selVal === q.answer) {
+                document.getElementById(`label-${qIdx}-${selVal}`).classList.add('correct');
+                score++;
+            } else {
+                document.getElementById(`label-${qIdx}-${selVal}`).classList.add('incorrect');
+                document.getElementById(`label-${qIdx}-${q.answer}`).classList.add('correct');
+            }
+
+            // Tự động cuộn đến câu tiếp theo sau 600ms
+            setTimeout(() => {
+                const nextCard = document.getElementById(`q-card-${qIdx + 1}`);
+                if (nextCard) {
+                    nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 600);
+        };
+
+        window.showResult = function() {
+            const resContainer = document.getElementById('result-container');
+            const scoreText = document.getElementById('score-text');
+            const eval = document.getElementById('evaluation');
+            
+            resContainer.style.display = 'block';
+            scoreText.innerText = `${score} / ${quizData.length}`;
+            
+            const percent = (score / quizData.length) * 100;
+            if (percent === 100) eval.innerText = "Tuyệt đối! Bạn là chuyên gia CNXHKH.";
+            else if (percent >= 80) eval.innerText = "Rất tốt! Bạn nắm rất chắc về giai cấp công nhân.";
+            else if (percent >= 50) eval.innerText = "Tạm đạt, cần chú ý kỹ hơn các đặc điểm công nhân Việt Nam.";
+            else eval.innerText = "Cần học lại kỹ hơn để vượt qua kỳ thi nhé!";
+            
+            resContainer.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        loadQuiz();
+    </script>
+</body>
+</html>

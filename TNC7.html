@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc nghiệm CNXHKH - Câu 266-302</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f0f2f5; }
+        h1 { text-align: center; color: #1a73e8; margin-bottom: 30px; }
+        .question-card { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #1a73e8; transition: transform 0.2s; }
+        .question-title { font-weight: bold; margin-bottom: 15px; font-size: 1.1em; color: #202124; }
+        .options-container { display: flex; flex-direction: column; gap: 8px; }
+        .option { display: block; padding: 12px 15px; border: 1px solid #dadce0; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: #fff; }
+        .option:hover { background-color: #f8f9fa; border-color: #1a73e8; }
+        .option.disabled { pointer-events: none; opacity: 0.8; }
+        .correct { background-color: #e6f4ea !important; border-color: #34a853 !important; color: #137333; font-weight: bold; }
+        .incorrect { background-color: #fce8e6 !important; border-color: #ea4335 !important; color: #c5221f; text-decoration: line-through; }
+        
+        /* Phần kết quả */
+        #result-container { 
+            text-align: center; margin-top: 30px; padding: 30px; 
+            background: #fff; border-radius: 12px; display: none; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px solid #1a73e8;
+        }
+        .btn-submit {
+            display: block; width: 220px; margin: 40px auto; padding: 15px;
+            background-color: #1a73e8; color: white; border: none;
+            border-radius: 8px; font-size: 1.1em; cursor: pointer; font-weight: bold;
+        }
+        .btn-submit:hover { background-color: #1557b0; transform: translateY(-2px); }
+        #score-text { font-size: 2em; color: #1a73e8; font-weight: bold; margin: 10px 0; }
+        .reload-btn { background: #5f6368; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>Ôn tập Chủ nghĩa xã hội khoa học (Câu 266 - 302)</h1>
+    <div id="quiz"></div>
+
+    <button class="btn-submit" onclick="showResult()">Nộp bài & Xem kết quả</button>
+    
+    <div id="result-container">
+        <h2>Kết quả của bạn</h2>
+        <div id="score-text">0/0</div>
+        <p id="evaluation" style="font-weight: bold;"></p>
+        <button class="reload-btn" onclick="location.reload()">Làm lại bài mới</button>
+    </div>
+
+    <script>
+        const quizData = [
+            { question: "266. Theo CN Mác – Lênin, gia đình là cộng đồng xã hội như thế nào? ", options: ["A. Đặc trưng", "B. Đặc biệt", "C. Đặc thù", "D. Đặc chủng"], answer: 1 },
+            { question: "267. Gia đình có mấy chức năng cơ bản theo quan điểm CN Mác – Lênin? ", options: ["A. 1", "B. 2", "C. 3", "D. 4"], answer: 3 },
+            { question: "268. Chức năng đặc thù của gia đình là gì? ", options: ["A. Nuôi dưỡng giáo dục", "B. Tái sản xuất ra con người", "C. Kinh tế tiêu dùng", "D. Thỏa mãn tâm sinh lý"], answer: 1 },
+            { question: "269. Các chức năng cơ bản của gia đình gồm: ", options: ["A. Tái sản xuất con người; nuôi dưỡng, giáo dục; kinh tế tiêu dùng; thỏa mãn tâm sinh lý", "B. Tái sản xuất; chính trị tiêu dùng; thỏa mãn tâm sinh lý", "C. Tái sản xuất; nuôi dưỡng; tư tưởng tổ chức", "D. Nuôi dưỡng; kinh tế; duy trì tình cảm xã hội"], answer: 0 },
+            { question: "270. Chức năng thường xuyên của gia đình là: ", options: ["A. Nuôi dưỡng, giáo dục", "B. Tái sản xuất ra con người", "C. Kinh tế và tổ chức tiêu dùng", "D. Thỏa mãn tâm sinh lý"], answer: 0 },
+            { question: "271. Phương án đúng nhất về gia đình theo CN Mác – Lênin: ", options: ["A. Là cộng đồng hình thành dựa trên hôn nhân và nuôi dưỡng", "B. Là hình thức cộng đồng xã hội đặc biệt dựa trên hôn nhân, huyết thống, quyền và nghĩa vụ thành viên", "C. Là hình thức cộng đồng dựa trên huyết thống và nuôi dưỡng", "D. Là cộng đồng dựa trên hôn nhân và nghĩa vụ thành viên"], answer: 1 },
+            { question: "272. Cơ sở kinh tế - xã hội để xây dựng gia đình thời kỳ quá độ: ", options: ["A. Phát triển văn hóa mới", "B. Sự phát triển lực lượng sản xuất và quan hệ sản xuất mới XHCN", "C. Phát triển kinh tế văn hóa", "D. Sự phát triển tâm lý xã hội"], answer: 1 },
+            { question: "273. Độ tuổi kết hôn theo luật Việt Nam 2014: ", options: ["A. Nam 18, nữ 18", "B. Nam 19, nữ 19", "C. Nam từ đủ 20, nữ từ đủ 18", "D. Nam 21, nữ 19"], answer: 2 },
+            { question: "274. Hôn nhân tiến bộ có khuyến khích ly hôn không? ", options: ["A. Có, khi hết tình yêu", "B. Có, vì tự nguyện", "C. Không, vì luật cấm", "D. Không, vì ly hôn để lại hậu quả cho xã hội và con cái"], answer: 3 },
+            { question: "275. Chế độ hôn nhân tiến bộ là: ", options: ["A. Hôn nhân tự nguyện; một vợ một chồng, bình đẳng, đảm bảo pháp lý", "B. Tự nguyện; một vợ một chồng, bình đẳng", "C. Tự nguyện, bình đẳng, đảm bảo pháp lý", "D. Tự nguyện; một vợ một chồng, đảm bảo pháp lý"], answer: 0 },
+            { question: "276. Cơ sở chính trị để xây dựng gia đình thời kỳ quá độ: ", options: ["A. Thiết lập chính quyền nhà nước XHCN của giai cấp công nhân và nhân dân", "B. Xây dựng giá trị văn hóa công nhân", "C. Phát triển quan hệ sản xuất mới", "D. Phát triển kinh tế - xã hội"], answer: 0 },
+            { question: "277. ...... là tổ ấm mang lại hạnh phúc cho cá nhân: ", options: ["A. Trường học", "B. Gia đình", "C. Xã hội", "D. Tập thể"], answer: 1 },
+            { question: "278. Chức năng thể hiện tình cảm thiêng liêng và trách nhiệm cha mẹ: ", options: ["A. Nuôi dưỡng, giáo dục", "B. Tái sản xuất", "C. Kinh tế tiêu dùng", "D. Thỏa mãn tâm sinh lý"], answer: 0 },
+            { question: "279. Có mấy cơ sở để xây dựng gia đình thời kỳ quá độ? ", options: ["A. 1", "B. 2", "C. 3", "D. 4"], answer: 2 },
+            { question: "280. Một trong những chức năng cơ bản của gia đình: ", options: ["A. Thế giới quan", "B. Phương pháp luận", "C. Chức năng kinh tế và tổ chức tiêu dùng", "D. Định hướng lý tưởng"], answer: 2 },
+            { question: "281. Quy mô gia đình Việt Nam thời kỳ quá độ biến đổi thế nào? ", options: ["A. Xu hướng thu nhỏ hơn, ít thành viên đi", "B. Mở rộng hơn", "C. Thu nhỏ nhưng nhiều thành viên hơn", "D. Mở rộng nhưng ít thành viên đi"], answer: 0 },
+            { question: "282. Phương án KHÔNG đúng về hôn nhân tiến bộ: ", options: ["A. Tự nguyện", "B. Một vợ một chồng, bình đẳng", "C. Đảm bảo pháp lý", "D. Không được phép ly hôn"], answer: 3 },
+            { question: "283. Có mấy phương hướng cơ bản xây dựng gia đình Việt Nam? ", options: ["A. 1", "B. 2", "C. 3", "D. 4"], answer: 3 },
+            { question: "284. Gia đình văn hóa theo phương hướng xây dựng hiện nay: ", options: ["A. No ấm, hòa thuận, tiến bộ, khỏe mạnh, hạnh phúc; tốt nghĩa vụ công dân; KHH gia đình; đoàn kết dân cư", "B. No ấm, bình đẳng, tiến bộ; tốt nghĩa vụ", "C. No ấm, dân chủ, khỏe mạnh; tốt nghĩa vụ", "D. No ấm, khỏe mạnh, hạnh phúc; tốt nghĩa vụ"], answer: 0 },
+            { question: "285. Nội dung KHÔNG đúng trong phương hướng xây dựng gia đình: ", options: ["A. Đẩy mạnh phát triển kinh tế hộ", "B. Tăng cường lãnh đạo của Đảng", "C. Khuyến khích sinh nhiều con", "D. Nâng cao chất lượng gia đình văn hóa"], answer: 2 },
+            { question: "286. Quan điểm: “Hạt nhân của xã hội là gia đình” của ai? ", options: ["A. C.Mác", "B. Ăngghen", "C. Lênin", "D. Hồ Chí Minh"], answer: 3 },
+            { question: "287. Nội dung KHÔNG đúng về vị trí gia đình: ", options: ["A. Tế bào xã hội", "B. Tổ ấm mang lại hạnh phúc", "C. Cầu nối cá nhân và xã hội", "D. Tổ chức chính trị của xã hội"], answer: 3 },
+            { question: "288. Nội dung giáo dục gia đình hiện nay hướng đến: ", options: ["A. Quản lý tài chính", "B. Quản lý thời gian", "C. Kiến thức khoa học hiện đại, giúp con cái hòa nhập thế giới", "D. Khoa học xã hội"], answer: 2 },
+            { question: "289. Quan điểm gia đình là “quan hệ thứ ba tham dự ngay từ đầu lịch sử” của: ", options: ["A. C.Mác", "B. C.Mác và Ăngghen", "C. Lênin", "D. Hồ Chí Minh"], answer: 1 },
+            { question: "290. Quan hệ nào là cơ sở, nền tảng hình thành nên các quan hệ khác trong gia đình? ", options: ["A. Quan hệ hôn nhân", "B. Huyết thống", "C. Nuôi dưỡng", "D. Quyền và nghĩa vụ"], answer: 0 },
+            { question: "291. “Nếu không giải phóng phụ nữ là xây dựng CNXH chỉ một nửa” là của: ", options: ["A. C.Mác", "B. C.Mác và Ăngghen", "C. Lênin", "D. Hồ Chí Minh"], answer: 3 },
+            { question: "292. Tính đặc thù chức năng kinh tế gia đình so với đơn vị khác: ", options: ["A. Gia đình tham gia tái sản xuất sức lao động", "B. Gia đình là đơn vị duy nhất tái sản xuất sức lao động cho xã hội", "C. Duy nhất không tham gia", "D. Không phải duy nhất tham gia"], answer: 1 },
+            { question: "293. Gia đình đơn phổ biến hiện nay được hiểu là: ", options: ["A. Gia đình hạt nhân", "B. Đa thế hệ", "C. Hỗn hợp", "D. Một thành viên"], answer: 0 },
+            { question: "294. Hai mối quan hệ cơ bản hình thành gia đình: ", options: ["A. Cá nhân - tập thể", "B. Hôn nhân - nuôi dưỡng", "C. Hôn nhân và huyết thống", "D. Con người - xã hội"], answer: 2 },
+            { question: "295. Tiêu chí no ấm, hòa thuận, tiến bộ, hạnh phúc... là của: ", options: ["A. Gia đình truyền thống", "B. Gia đình hiện đại", "C. Gia đình giàu có", "D. Gia đình văn hóa"], answer: 3 },
+            { question: "296. Chức năng cơ bản của gia đình theo CN Mác – Lênin: ", options: ["A. Chính trị", "B. Quân sự", "C. Chức năng kinh tế, tổ chức đời sống", "D. Ngoại giao"], answer: 2 },
+            { question: "297. Tự do lựa chọn người kết hôn và tự do ly hôn thể hiện nội dung: ", options: ["A. Hôn nhân tự nguyện", "B. Một vợ một chồng", "C. Bình đẳng", "D. Pháp lý"], answer: 0 },
+            { question: "298. Lênin coi mối quan hệ nào yếu tố quan trọng giải phóng phụ nữ? ", options: ["A. Cha mẹ - con cái", "B. Anh chị em", "C. Quan hệ vợ chồng", "D. Kinh tế"], answer: 2 },
+            { question: "299. Giảm ly hôn và bạo lực gia đình là mục tiêu của: ", options: ["A. Chính sách kinh tế", "B. Giáo dục", "C. Chính sách gia đình", "D. Quốc phòng"], answer: 2 },
+            { question: "300. Gia đình hạt nhân bao gồm: ", options: ["A. Nhiều thế hệ", "B. Nhiều vợ chồng", "C. Gia đình chỉ có vợ, chồng và con cái", "D. Không có con"], answer: 2 },
+            { question: "301. Phát triển kinh tế hộ gia đình nhằm mục đích: ", options: ["A. Đơn vị sản xuất duy nhất", "B. Giải quyết triệt để vấn đề kinh tế", "C. Tạo điều kiện gia đình phát triển toàn diện, góp phần xây dựng CNXH", "D. Loại bỏ vai trò giáo dục"], answer: 2 },
+            { question: "302. Một biến đổi trong quan hệ gia đình Việt Nam hiện nay là: ", options: ["A. Quy mô và kết cấu của gia đình thay đổi", "B. Chức năng giáo dục thay đổi", "C. Cha mẹ - con cái thay đổi", "D. Gia đình - xã hội thay đổi"], answer: 0 }
+        ];
+
+        let score = 0;
+        const quizContainer = document.getElementById('quiz');
+
+        function loadQuiz() {
+            quizData.forEach((q, index) => {
+                const qCard = document.createElement('div');
+                qCard.classList.add('question-card');
+                qCard.id = `q-card-${index}`;
+                let optionsHtml = '';
+                q.options.forEach((opt, optIndex) => {
+                    optionsHtml += `<div class="option" id="label-${index}-${optIndex}" onclick="checkAnswer(${index}, ${optIndex})">${opt}</div>`;
+                });
+                qCard.innerHTML = `<div class="question-title">${q.question}</div><div id="options-${index}" class="options-container">${optionsHtml}</div>`;
+                quizContainer.appendChild(qCard);
+            });
+        }
+
+        window.checkAnswer = function(qIdx, selVal) {
+            const q = quizData[qIdx];
+            const allOptions = document.querySelectorAll(`#options-${qIdx} .option`);
+            
+            if (allOptions[0].classList.contains('disabled')) return;
+            allOptions.forEach(opt => opt.classList.add('disabled'));
+            
+            if (selVal === q.answer) {
+                document.getElementById(`label-${qIdx}-${selVal}`).classList.add('correct');
+                score++;
+            } else {
+                document.getElementById(`label-${qIdx}-${selVal}`).classList.add('incorrect');
+                document.getElementById(`label-${qIdx}-${q.answer}`).classList.add('correct');
+            }
+
+            setTimeout(() => {
+                const nextCard = document.getElementById(`q-card-${qIdx + 1}`);
+                if (nextCard) {
+                    nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 600);
+        };
+
+        window.showResult = function() {
+            const resContainer = document.getElementById('result-container');
+            const scoreText = document.getElementById('score-text');
+            const eval = document.getElementById('evaluation');
+            
+            resContainer.style.display = 'block';
+            scoreText.innerText = `${score} / ${quizData.length}`;
+            
+            const percent = (score / quizData.length) * 100;
+            if (percent === 100) eval.innerText = "Tuyệt đối! Bạn hiểu rất sâu sắc về vai trò của Gia đình.";
+            else if (percent >= 80) eval.innerText = "Rất tốt! Bạn nắm vững kiến thức về xây dựng gia đình trong thời kỳ quá độ.";
+            else if (percent >= 50) eval.innerText = "Tạm ổn, hãy lưu ý kỹ các chức năng đặc thù và thường xuyên của gia đình.";
+            else eval.innerText = "Cần học kỹ hơn về các mối quan hệ và chức năng gia đình.";
+            
+            resContainer.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        loadQuiz();
+    </script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc nghiệm CNXHKH - Câu 216-265</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f0f2f5; }
+        h1 { text-align: center; color: #1a73e8; margin-bottom: 30px; }
+        .question-card { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #1a73e8; transition: transform 0.2s; }
+        .question-title { font-weight: bold; margin-bottom: 15px; font-size: 1.1em; color: #202124; }
+        .options-container { display: flex; flex-direction: column; gap: 8px; }
+        .option { display: block; padding: 12px 15px; border: 1px solid #dadce0; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: #fff; }
+        .option:hover { background-color: #f8f9fa; border-color: #1a73e8; }
+        .option.disabled { pointer-events: none; opacity: 0.8; }
+        .correct { background-color: #e6f4ea !important; border-color: #34a853 !important; color: #137333; font-weight: bold; }
+        .incorrect { background-color: #fce8e6 !important; border-color: #ea4335 !important; color: #c5221f; text-decoration: line-through; }
+        
+        /* Phần kết quả */
+        #result-container { 
+            text-align: center; margin-top: 30px; padding: 30px; 
+            background: #fff; border-radius: 12px; display: none; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px solid #1a73e8;
+        }
+        .btn-submit {
+            display: block; width: 220px; margin: 40px auto; padding: 15px;
+            background-color: #1a73e8; color: white; border: none;
+            border-radius: 8px; font-size: 1.1em; cursor: pointer; font-weight: bold;
+        }
+        .btn-submit:hover { background-color: #1557b0; }
+        #score-text { font-size: 2em; color: #1a73e8; font-weight: bold; margin: 10px 0; }
+        .reload-btn { background: #5f6368; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>Ôn tập Chủ nghĩa xã hội khoa học (Câu 216 - 265)</h1>
+    <div id="quiz"></div>
+
+    <button class="btn-submit" onclick="showResult()">Nộp bài & Xem kết quả</button>
+    
+    <div id="result-container">
+        <h2>Kết quả của bạn</h2>
+        <div id="score-text">0/0</div>
+        <p id="evaluation" style="font-weight: bold;"></p>
+        <button class="reload-btn" onclick="location.reload()">Làm lại bài mới</button>
+    </div>
+
+    <script>
+        const quizData = [
+            { question: "216. Theo quan điểm của Chủ nghĩa Mác - Lênin, tôn giáo là một hiện tượng: ", options: ["A. Lịch sử, có quá trình ra đời, tồn tại và sẽ mất đi", "B. Tự nhiên, tồn tại vĩnh viễn", "C. Văn hóa, không liên quan kinh tế", "D. Cá nhân, không có tính xã hội"], answer: 0 },
+            { question: "217. Một trong những nguồn gốc tự nhiên, kinh tế – xã hội của tôn giáo là: ", options: ["A. Sự bất lực của con người trước sức mạnh tự nhiên và xã hội", "B. Nhu cầu giải trí", "C. Ý thức hệ giai cấp thống trị", "D. Nhu cầu giao tiếp"], answer: 0 },
+            { question: "218. Giải quyết vấn đề tôn giáo trong thời kỳ quá độ cần tuân thủ nguyên tắc: ", options: ["A. Tôn trọng, bảo đảm quyền tự do tín ngưỡng, không tín ngưỡng của nhân dân", "B. Bảo đảm quyền của giai cấp thống trị", "C. Dùng làm hệ tư tưởng thống trị", "D. Làm công cụ chống phản động"], answer: 0 },
+            { question: "219. Tôn giáo sẽ dần mất đi vị trí trong đời sống và nhận thức khi: ", options: ["A. Kinh tế thị trường phát triển mạnh", "B. Nhà nước ban hành lệnh cấm", "C. Khoa học và giáo dục giúp nhân dân nhận thức được bản chất hiện tượng", "D. Số lượng tín đồ biến đổi"], answer: 2 },
+            { question: "220. Một trong những khác biệt giữa tín ngưỡng và tôn giáo là: ", options: ["A. Tín ngưỡng có giáo lý giáo luật", "B. Tín ngưỡng không có hệ thống tổ chức chặt chẽ, tôn giáo thì có", "C. Tín ngưỡng là mê tín", "D. Tín ngưỡng chỉ có ở phương Đông"], answer: 1 },
+            { question: "221. Nguyên nhân tồn tại tôn giáo trong thời kỳ quá độ lên CNXH: ", options: ["A. Thúc đẩy khoa học công nghệ", "B. Do nhu cầu tinh thần của đa số quần chúng nhân dân", "C. Là hiện tượng bất biến", "D. Phù hợp thế giới quan Mác-Lênin"], answer: 1 },
+            { question: "222. Chính sách tín ngưỡng, tôn giáo của Đảng, Nhà nước Việt Nam hiện nay là: ", options: ["A. Duy trì một tôn giáo nhất định", "B. Xóa bỏ tôn giáo truyền thống", "C. Đoàn kết đồng bào theo các tôn giáo khác nhau", "D. Không gắn với vấn đề dân tộc"], answer: 2 },
+            { question: "223. Lựa chọn nội dung KHÔNG đúng về sự giống nhau giữa tín ngưỡng và mê tín dị đoan: ", options: ["A. Đều là niềm tin vào lực lượng linh thiêng", "B. Đều có nghi thức thể hiện niềm tin", "C. Tín ngưỡng và mê tín dị đoan đều gây tổn hại đến cá nhân, xã hội", "D. Đều là sản phẩm do con người sáng tạo"], answer: 2 },
+            { question: "224. Theo quan điểm của Chủ nghĩa Mác – Lênin, tôn giáo là: ", options: ["A. Một hình thái ý thức xã hội phản ánh hư ảo hiện thực khách quan", "B. Phản ánh đúng hiện thực", "C. Không gắn với hoạt động sản xuất", "D. Hiện tượng tự nhiên vĩnh viễn"], answer: 0 },
+            { question: "225. Tôn giáo ở Việt Nam có mấy đặc điểm cơ bản? ", options: ["A. 2", "B. 3", "C. 4", "D. 5"], answer: 3 },
+            { question: "226. Tôn giáo có mấy nguồn gốc cơ bản theo CN Mác-Lênin? ", options: ["A. 2", "B. 3", "C. 4", "D. 5"], answer: 1 },
+            { question: "227. Nội dung cốt lõi của tự do tín ngưỡng là: ", options: ["A. Nhà nước can thiệp lựa chọn", "B. Mọi công dân đều được quyền tự do lựa chọn theo hoặc không theo bất kỳ tôn giáo nào", "C. Khuyến khích theo một đạo", "D. Cấm thay đổi tôn giáo"], answer: 1 },
+            { question: "228. Tôn giáo có mấy tính chất cơ bản? ", options: ["A. 2", "B. 3", "C. 4", "D. 5"], answer: 1 },
+            { question: "229. Nội dung cốt lõi của công tác tôn giáo ở Việt Nam hiện nay là: ", options: ["A. Nhu cầu của một bộ phận nhân dân", "B. Chính sách đại đoàn kết", "C. Công tác vận động quần chúng nhằm động viên đồng bào yêu nước", "D. Trách nhiệm hệ thống chính trị"], answer: 2 },
+            { question: "230. Quan hệ dân tộc và tôn giáo ở Việt Nam có mấy đặc điểm cơ bản? ", options: ["A. 2", "B. 3", "C. 4", "D. 5"], answer: 2 },
+            { question: "231. Tôn giáo nào sau đây được sáng lập ở Việt Nam? ", options: ["A. Đạo Phật", "B. Đạo Tin lành", "C. Đạo Hồi", "D. Đạo Cao Đài"], answer: 3 },
+            { question: "232. Tính chất nào sau đây KHÔNG thuộc tính chất của tôn giáo? ", options: ["A. Tính lịch sử", "B. Tính chính trị", "C. Tính quần chúng", "D. Tính khoa học"], answer: 3 },
+            { question: "233. Quan hệ dân tộc và tôn giáo ở Việt Nam chịu chi phối mạnh mẽ bởi: ", options: ["A. Kinh tế", "B. Chính trị - xã hội", "C. Tín ngưỡng truyền thống", "D. Tôn giáo ngoại nhập"], answer: 2 },
+            { question: "234. Củng cố khối đại đoàn kết dân tộc và tôn giáo là vấn đề: ", options: ["A. Trước mắt, cấp thiết", "B. Vấn đề chiến lược, cơ bản, lâu dài và cấp bách", "C. Lâu dài và cần thiết", "D. Chủ yếu, cấp bách"], answer: 1 },
+            { question: "235. Nội dung nào KHÔNG thuộc nguyên tắc giải quyết tôn giáo của CN Mác-Lênin? ", options: ["A. Tôn trọng tự do tín ngưỡng", "B. Khắc phục tiêu cực gắn với cải tạo xã hội", "C. Phân biệt mặt chính trị và tư tưởng", "D. Giải quyết không gắn với điều kiện lịch sử cụ thể"], answer: 3 },
+            { question: "236. Một nguyên tắc giải quyết vấn đề tôn giáo là: ", options: ["A. Phân biệt mặt khoa học và chính trị", "B. Phân biệt hai mặt chính trị và tư tưởng của tôn giáo", "C. Phân biệt tư tưởng và văn hóa", "D. Phân biệt nhận thức và tâm lý"], answer: 1 },
+            { question: "237. Nguyên tắc tự do tín ngưỡng và không tín ngưỡng được hiểu là: ", options: ["A. Nhân dân có quyền tự do lựa chọn theo hoặc không theo một tín ngưỡng nào đó", "B. Phải chọn một trong hai", "C. Không có quyền tự do lựa chọn", "D. Phải theo mới có tự do"], answer: 0 },
+            { question: "238. Quan điểm lịch sử cụ thể trong giải quyết tôn giáo nghĩa là: ", options: ["A. Tôn giáo vận động và biến đổi tùy thuộc vào điều kiện kinh tế - xã hội – lịch sử cụ thể", "B. Không biến đổi", "C. Không vận động", "D. Biến đổi theo chức sắc"], answer: 0 },
+            { question: "239. Khái niệm Dân tộc (nghĩa hẹp) gồm đặc trưng: ", options: ["A. Cộng đồng về ngôn ngữ, văn hóa, ý thức tự giác tộc người", "B. Ngôn ngữ, văn hóa, lãnh thổ", "C. Ngôn ngữ, văn hóa, nhà nước", "D. Kinh tế, ngôn ngữ, văn hóa"], answer: 0 },
+            { question: "240. Khái niệm Dân tộc (nghĩa rộng) gồm đặc trưng: ", options: ["A. Lãnh thổ ổn định; sinh hoạt kinh tế; ngôn ngữ; văn hóa tâm lý và nhà nước", "B. Lãnh thổ, kinh tế, ngôn ngữ, văn hóa và ý thức tộc người", "C. Kinh tế, ngôn ngữ, văn hóa và nhà nước", "D. Lãnh thổ, kinh tế, ngôn ngữ, văn hóa"], answer: 0 },
+            { question: "241. Cương lĩnh dân tộc của CN Mác-Lênin có mấy nội dung? ", options: ["A. 2", "B. 3", "C. 4", "D. 5"], answer: 1 },
+            { question: "242. Nội dung Cương lĩnh dân tộc gồm: ", options: ["A. Các dân tộc hoàn toàn bình đẳng, các dân tộc được quyền tự quyết, liên hiệp công nhân tất cả các dân tộc", "B. Các dân tộc tự do, tự quyết, liên hiệp công nhân", "C. Bình đẳng, tự quyết, liên hiệp nông dân", "D. Bình đẳng, tự quyết, liên hiệp công - nông"], answer: 0 },
+            { question: "243. Cương lĩnh dân tộc soạn thảo vào thời gian nào? ", options: ["A. Những năm 40 thế kỷ XIX", "B. Những năm 80 thế kỷ XIX", "C. Những năm 20 của thế kỷ XX", "D. Cuối thế kỷ XX"], answer: 2 },
+            { question: "244. Vấn đề dân tộc và giai cấp có mối quan hệ: ", options: ["A. Tách rời", "B. Thống nhất biện chứng, tác động qua lại lẫn nhau", "C. Dân tộc quyết định giai cấp", "D. Giai cấp quyết định dân tộc"], answer: 1 },
+            { question: "245. Quyền bình đẳng giữa các dân tộc nghĩa là: ", options: ["A. Các dân tộc đều có nghĩa vụ và quyền lợi ngang nhau trên tất cả các lĩnh vực", "B. Quyền lợi tùy đóng góp", "C. Hưởng sự công bằng", "D. Trách nhiệm ngang nhau"], answer: 0 },
+            { question: "246. Quan điểm của Đảng ta về dân tộc: ", options: ["A. Vấn đề dân tộc và đoàn kết dân tộc là vấn đề chiến lược cơ bản, lâu dài và cấp bách", "B. Chỉ là vấn đề chiến lược", "C. Chỉ là vấn đề cấp bách", "D. Là vấn đề đoàn kết chiến lược"], answer: 0 },
+            { question: "247. Chính sách dân tộc cơ bản về chính trị: ", options: ["A. Phát triển kinh tế miền núi", "B. Thực hiện bình đẳng, đoàn kết, tôn trọng, giúp nhau cùng phát triển", "C. Xây dựng văn hóa đậm đà bản sắc", "D. Đảm bảo an sinh xã hội"], answer: 1 },
+            { question: "248. Nội dung nào vừa là chủ yếu, vừa là giải pháp liên kết Cương lĩnh dân tộc? ", options: ["A. Bình đẳng dân tộc", "B. Quyền tự quyết", "C. Liên hiệp công nhân tất cả các dân tộc", "D. Không có"], answer: 2 },
+            { question: "249. Quyền tự quyết của dân tộc nghĩa là: ", options: ["A. Quyền tự lựa chọn chế độ chính trị và con đường phát triển", "B. Tự chọn lãnh thổ", "C. Quyết định chính sách dân tộc thiểu số", "D. Tự do bầu cử"], answer: 0 },
+            { question: "250. “Sự sợ hãi sinh ra thần linh” phản ánh nguồn gốc nào? ", options: ["A. Tự nhiên", "B. Kinh tế - xã hội", "C. Nguồn gốc tâm lý", "D. Nhận thức"], answer: 2 },
+            { question: "251. Theo Cương lĩnh, các dân tộc hoàn toàn bình đẳng có nghĩa là: ", options: ["A. Các dân tộc có nghĩa vụ và quyền lợi ngang nhau trên tất cả các lĩnh vực", "B. Quyền lợi tương xứng đóng góp", "C. Nghĩa vụ tương xứng trình độ", "D. Quyền lợi tương đương dân số"], answer: 0 },
+            { question: "252. Thực hiện quyền tự quyết dân tộc cần đảm bảo: ", options: ["A. Quyền tự lựa chọn chế độ chính trị và con đường phát triển", "B. Tự chọn lãnh thổ", "C. Quyết định chính sách dân tộc thiểu số", "D. Tự do bầu cử"], answer: 0 },
+            { question: "253. Thực hiện quyền tự quyết cần đảm bảo nguyên tắc: ", options: ["A. Thống nhất lợi ích dân tộc và lợi ích của giai cấp công nhân", "B. Ưu tiên dân tộc thiểu số", "C. Ưu tiên lợi ích thiểu số", "D. Thống nhất lợi ích dân tộc và nông dân"], answer: 0 },
+            { question: "254. Quan điểm quan trọng trong chính sách dân tộc của Đảng ta: ", options: ["A. Đoàn kết các dân tộc trên cơ sở bình đẳng", "B. Đa số lãnh đạo thiểu số", "C. Phân chia địa giới theo trình độ", "D. Cấm dùng ngôn ngữ riêng"], answer: 0 },
+            { question: "255. Nội dung nào thuộc Cương lĩnh dân tộc? ", options: ["A. Liên hiệp giai cấp công nhân tất cả các dân tộc", "B. Liên hiệp dân tộc bị áp bức", "C. Đoàn kết dân tộc thế giới", "D. Đoàn kết dân thuộc địa"], answer: 0 },
+            { question: "256. Khẩu hiệu: “Vô sản tất cả các nước, đoàn kết lại” do ai nêu ra? ", options: ["A. C. Mác", "B. V.I. Lênin", "C. Hồ Chí Minh", "D. Ph. Hêghen"], answer: 0 },
+            { question: "257. Nội dung KHÔNG thuộc Cương lĩnh dân tộc: ", options: ["A. Bảo tồn văn hóa truyền thống của các dân tộc", "B. Bình đẳng dân tộc", "C. Tự quyết dân tộc", "D. Đoàn kết dân tộc"], answer: 0 },
+            { question: "258. Trong chính sách dân tộc, nội dung nào được ưu tiên? ", options: ["A. Đầu tư phát triển kinh tế - xã hội các vùng dân tộc và miền núi", "B. Giáo dục, y tế", "C. Chính trị - xã hội", "D. Văn hóa - xã hội"], answer: 0 },
+            { question: "259. Nội dung KHÔNG đúng với đặc điểm dân tộc ở Việt Nam: ", options: ["A. Các dân tộc có trình độ phát triển đồng đều nhau", "B. Cư trú xen kẽ", "C. Thiểu số ở vị trí chiến lược", "D. Đoàn kết lâu đời"], answer: 0 },
+            { question: "260. Nội dung KHÔNG thuộc chính sách chính trị dân tộc: ", options: ["A. Thực hiện chính sách xã hội, đảm bảo an sinh xã hội", "B. Bình đẳng, đoàn kết", "C. Nâng cao tính tích cực chính trị", "D. Nâng cao nhận thức về đoàn kết"], answer: 0 },
+            { question: "261. Nội dung KHÔNG thuộc chính sách kinh tế dân tộc: ", options: ["A. Thực hiện chính sách xã hội, đảm bảo an sinh xã hội", "B. Phát triển kinh tế miền núi", "C. Khắc phục chênh lệch", "D. Thúc đẩy kinh tế thị trường"], answer: 0 },
+            { question: "262. Nội dung KHÔNG thuộc chính sách văn hóa dân tộc: ", options: ["A. Thực hiện bình đẳng, đoàn kết, tôn trọng, giúp nhau cùng phát triển", "B. Giữ gìn giá trị truyền thống", "C. Xây dựng văn hóa tiên tiến", "D. Phát triển ngôn ngữ"], answer: 0 },
+            { question: "263. Thực hiện chính sách dân tộc là nhiệm vụ của: ", options: ["A. Toàn bộ hệ thống chính trị", "B. Riêng mỗi dân tộc", "C. Chỉ ban ngành Chính phủ", "D. Chỉ Quốc hội"], answer: 0 },
+            { question: "264. Quan điểm giải quyết dân tộc của Đảng và Nhà nước: ", options: ["A. Bảo tồn, phát triển ngôn ngữ của tất cả các dân tộc thiểu số", "B. Duy trì tiếng Việt là duy nhất", "C. Cấm tiếng thiểu số", "D. Hạn chế dùng ngôn ngữ riêng"], answer: 0 },
+            { question: "265. Vì sao cần xây dựng văn hóa tiên tiến, đậm bản sắc? ", options: ["A. Vì văn hóa là nền tảng tinh thần, sức mạnh nội sinh, động lực bền vững", "B. Chạy theo trào lưu thế giới", "C. Cạnh tranh văn hóa thế giới", "D. Để giống nước phát triển"], answer: 0 }
+        ];
+
+        let score = 0;
+        const quizContainer = document.getElementById('quiz');
+
+        function loadQuiz() {
+            quizData.forEach((q, index) => {
+                const qCard = document.createElement('div');
+                qCard.classList.add('question-card');
+                qCard.id = `q-card-${index}`;
+                let optionsHtml = '';
+                q.options.forEach((opt, optIndex) => {
+                    optionsHtml += `<div class="option" id="label-${index}-${optIndex}" onclick="checkAnswer(${index}, ${optIndex})">${opt}</div>`;
+                });
+                qCard.innerHTML = `<div class="question-title">${q.question}</div><div id="options-${index}" class="options-container">${optionsHtml}</div>`;
+                quizContainer.appendChild(qCard);
+            });
+        }
+
+        window.checkAnswer = function(qIdx, selVal) {
+            const q = quizData[qIdx];
+            const allOptions = document.querySelectorAll(`#options-${qIdx} .option`);
+            
+            if (allOptions[0].classList.contains('disabled')) return;
+            allOptions.forEach(opt => opt.classList.add('disabled'));
+            
+            if (selVal === q.answer) {
+                document.getElementById(`label-${qIdx}-${selVal}`).classList.add('correct');
+                score++;
+            } else {
+                document.getElementById(`label-${qIdx}-${selVal}`).classList.add('incorrect');
+                document.getElementById(`label-${qIdx}-${q.answer}`).classList.add('correct');
+            }
+
+            setTimeout(() => {
+                const nextCard = document.getElementById(`q-card-${qIdx + 1}`);
+                if (nextCard) {
+                    nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 600);
+        };
+
+        window.showResult = function() {
+            const resContainer = document.getElementById('result-container');
+            const scoreText = document.getElementById('score-text');
+            const eval = document.getElementById('evaluation');
+            
+            resContainer.style.display = 'block';
+            scoreText.innerText = `${score} / ${quizData.length}`;
+            
+            const percent = (score / quizData.length) * 100;
+            if (percent === 100) eval.innerText = "Tuyệt vời! Bạn đã hoàn thành xuất sắc phần Dân tộc & Tôn giáo.";
+            else if (percent >= 80) eval.innerText = "Rất tốt! Bạn nắm vững các chính sách dân tộc của Đảng.";
+            else if (percent >= 50) eval.innerText = "Tạm ổn, nhưng hãy xem lại các nguồn gốc của tôn giáo nhé.";
+            else eval.innerText = "Phần này kiến thức hơi rộng, bạn cần đọc lại giáo trình kỹ hơn.";
+            
+            resContainer.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        loadQuiz();
+    </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc nghiệm CNXHKH - 30 Câu Đầu</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f0f2f5; }
+        h1 { text-align: center; color: #1a73e8; margin-bottom: 30px; }
+        .question-card { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #1a73e8; transition: transform 0.2s; }
+        .question-title { font-weight: bold; margin-bottom: 15px; font-size: 1.1em; color: #202124; }
+        .options-container { display: flex; flex-direction: column; gap: 8px; }
+        .option { display: block; padding: 12px 15px; border: 1px solid #dadce0; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: #fff; }
+        .option:hover { background-color: #f8f9fa; border-color: #1a73e8; }
+        .option.disabled { pointer-events: none; opacity: 0.8; }
+        .correct { background-color: #e6f4ea !important; border-color: #34a853 !important; color: #137333; font-weight: bold; }
+        .incorrect { background-color: #fce8e6 !important; border-color: #ea4335 !important; color: #c5221f; text-decoration: line-through; }
+        
+        /* Phần tổng kết điểm */
+        #result-container { 
+            text-align: center; margin-top: 30px; padding: 30px; 
+            background: #fff; border-radius: 12px; display: none; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px solid #1a73e8;
+        }
+        .btn-submit {
+            display: block; width: 220px; margin: 40px auto; padding: 15px;
+            background-color: #1a73e8; color: white; border: none;
+            border-radius: 8px; font-size: 1.1em; cursor: pointer; font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-submit:hover { background-color: #1557b0; transform: translateY(-2px); }
+        #score-text { font-size: 2em; color: #1a73e8; font-weight: bold; margin: 10px 0; }
+        .reload-btn { background: #5f6368; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>Ôn tập Chủ nghĩa xã hội khoa học (Câu 1 - 30)</h1>
+    
+    <div id="quiz"></div>
+
+    <button class="btn-submit" onclick="showResult()">Nộp bài & Xem kết quả</button>
+    
+    <div id="result-container">
+        <h2>Kết quả của bạn</h2>
+        <div id="score-text">0/0</div>
+        <p id="evaluation" style="font-weight: bold;"></p>
+        <button class="reload-btn" onclick="location.reload()">Làm lại bài mới</button>
+    </div>
+
+    <script>
+        const quizData = [
+            { question: "1. Theo nghĩa rộng, Chủ nghĩa xã hội khoa học là gì?", options: ["A. Là học thuyết giải phóng con người từ xã hội phong kiến đi lên chủ nghĩa xã hội", "B. Là xã hội đã giải phóng giai cấp lao động khỏi áp bức bóc lột", "C. Là chủ nghĩa Mác – Lênin, luận giải từ giác độ triết học, kinh tế học chính trị và chính trị - xã hội...", "D. Là phong trào giải phóng giai cấp khỏi sự áp bức bóc lột"], answer: 2 },
+            { question: "2. Theo nghĩa hẹp, Chủ nghĩa xã hội khoa học là gì?", options: ["A. Là chủ nghĩa Mác – Lênin, luận giải từ giác độ triết học...", "B. Là một trong ba bộ phận hợp thành chủ nghĩa Mác – Lênin", "C. Là xã hội đã giải phóng giai cấp lao động khỏi áp bức bóc lột", "D. Là phong trào giải phóng giai cấp khỏi sự áp bức bóc lột"], answer: 1 },
+            { question: "3. Chủ nghĩa xã hội khoa học ra đời khi nào?", options: ["A. Thế kỷ XVII", "B. Thế kỷ XVIII", "C. Thế kỷ XIX", "D. Thế kỷ XX"], answer: 2 },
+            { question: "4. Ai là người sáng lập ra Chủ nghĩa xã hội khoa học?", options: ["A. Ph. Anghen", "B. Ph. Hêghen", "C. C. Mác và Ph. Hêghen", "D. C. Mác và Ph. Ănghen"], answer: 3 },
+            { question: "5. Chủ nghĩa xã hội khoa học ra đời trong hoàn cảnh lịch sử nào?", options: ["A. Trước khi diễn ra các phong trào đấu tranh...", "B. Khi các phong trào... giành thắng lợi", "C. Khi các phong trào đấu tranh của giai cấp công nhân diễn ra ở Anh, Đức, Pháp... thất bại", "D. Khi các phong trào..."], answer: 2 },
+            { question: "6. Tiền đề khoa học tự nhiên nào có ảnh hưởng lớn đến sự ra đời của CNXHKH?", options: ["A. Phép biện chứng duy tâm", "B. Học thuyết tiến hóa", "C. Thuyết tương đối", "D. Chủ nghĩa xã hội không tưởng – phê phán"], answer: 1 },
+            { question: "7. Tiền đề tư tưởng lý luận nào được C. Mác kế thừa khi xây dựng CNXHKH?", options: ["A. Học thuyết tế bào", "B. Học thuyết tiến hóa", "C. Định luật bảo toàn và chuyển hóa năng lượng", "D. Chủ nghĩa xã hội không tưởng – phê phán"], answer: 3 },
+            { question: "8. Những hạn chế cơ bản của Chủ nghĩa xã hội không tưởng trước C. Mác là gì?", options: ["A. Chưa thấy được bản chất và quy luật vận đông của chủ nghĩa tư bản", "B. Chưa thấy được sự áp bức...", "C. Đưa ra phương pháp...", "D. Chỉ ra sứ mệnh lịch sử..."], answer: 0 },
+            { question: "9. Giá trị cơ bản của Chủ nghĩa xã hội không tưởng trước C. Mác là gì?", options: ["A. Chỉ ra được sứ mệnh...", "B. Chỉ ra phương pháp...", "C. Chỉ rõ bản chất...", "D. Phê phán sự áp bức, bóc lột, bất công của chủ nghĩa tư bản"], answer: 3 },
+            { question: "10. Tại sao các tư tưởng xã hội chủ nghĩa trước C. Mác được gọi là chủ nghĩa xã hội không tưởng?", options: ["A. Vì các nhà tư tưởng...", "B. Vì các nhà tư tưởng...", "C. Vì các nhà tư tưởng...", "D. Vì các nhà tư tưởng thời kỳ này chưa đưa ra được con đường cách mạng khoa học..."], answer: 3 },
+            { question: "11. Nhà tư tưởng nào sau đây không thuộc Chủ nghĩa xã hội không tưởng – phê phán?", options: ["A. X.Ximong", "B. A. Smith", "C. S. Phurie", "D. R. Oen"], answer: 1 },
+            { question: "12. Sự thay đổi của C. Mác và Ph. Ăngghen có vai trò quan trọng đối với sự ra đời của CNXHKH?", options: ["A. Từ duy vật sang duy tâm", "B. Từ duy tâm sang duy vật", "C. Từ cộng sản sang dân chủ", "D. Từ duy tâm chủ quan sang duy tâm khách quan"], answer: 1 },
+            { question: "13. Một trong ba phát kiến vĩ đại của C. Mác và Ph. Ăngghen là:", options: ["A. Học thuyết về giá trị thặng dư", "B. Học thuyết tế bào", "C. Học thuyết tiến hóa", "D. Phép biện chứng duy tâm"], answer: 0 },
+            { question: "14. Học thuyết nào không phải phát kiến khoa học của C. Mác và Ph. Angghen?", options: ["A. Giá trị thặng dư", "B. Sứ mệnh lịch sử công nhân", "C. Chủ nghĩa duy vật lịch sử", "D. Phép biện chứng duy tâm"], answer: 3 },
+            { question: "15. Chủ nghĩa duy vật lịch sử của C. Mác đã kế thừa “cái hạt nhân hợp lý” của học thuyết nào?", options: ["A. CNXH không tưởng", "B. CNXH không tưởng - phê phán", "C. Phép biện chứng của Ph. Hêghen", "D. CN duy vật của L. Phoiơbắc"], answer: 2 },
+            { question: "16. Học thuyết về sứ mệnh lịch sử công nhân đã khắc phục hạn chế gì của CNXH không tưởng?", options: ["A. Phê phán bất công", "B. Chưa đưa ra mô hình", "C. Chưa phát hiện ra giai cấp có vai trò tiên phong", "D. Phê phán hôn nhân đạo đức"], answer: 2 },
+            { question: "17. Tác phẩm Tuyên ngôn của Đảng cộng sản ra đời năm nào?", options: ["A. 1844", "B. 1848", "C. 1917", "D. 1945"], answer: 1 },
+            { question: "18. Tác phẩm nào đánh dấu sự ra đời của Chủ nghĩa xã hội khoa học?", options: ["A. Chủ nghĩa duy vật lịch sử", "B. Tuyên ngôn của Đảng cộng sản", "C. Hệ tư tưởng Đức", "D. Bộ Tư bản"], answer: 1 },
+            { question: "19. Từ khi ra đời đến nay, CNXHKH phát triển qua mấy giai đoạn chủ yếu?", options: ["A. 2", "B. 3", "C. 4", "D. 5"], answer: 1 },
+            { question: "20. Hoạt động của C. Mác và Ph. Ănghen cho chúng ta bài học gì?", options: ["A. Giữ nguyên nội dung", "B. Phát triển học thuyết", "C. Tập trung quốc gia thuộc địa", "D. Phát triển và bổ sung phù hợp sự thay đổi của lịch sử"], answer: 3 },
+            { question: "21. V.I. Lênin phát triển CNXHKH qua mấy thời kỳ cơ bản?", options: ["A. 2", "B. 3", "C. 4", "D. 5"], answer: 0 },
+            { question: "22. Ai đưa chủ nghĩa xã hội từ lý luận khoa học thành thực tiễn sinh động?", options: ["A. V.I. Lênin", "B. J. Stalin", "C. Hồ Chí Minh", "D. Mao Trạch Đông"], answer: 0 },
+            { question: "23. Hệ thống các nước xã hội chủ nghĩa hình thành khi nào?", options: ["A. Trước Thế chiến I", "B. Sau Thế chiến II", "C. Trước CM tháng Mười", "D. Sau CM tháng Mười"], answer: 1 },
+            { question: "24. Hệ thống các nước xã hội chủ nghĩa tan rã khi nào?", options: ["A. Những năm 60", "B. Những năm 70", "C. Những năm 80", "D. Những năm 90"], answer: 3 },
+            { question: "25. Ai có vai trò to lớn nhất vận dụng CNXHKH vào thực tiễn Việt Nam?", options: ["A. Võ Nguyên Giáp", "B. Hồ Chí Minh", "C. Lê Duẩn", "D. Lê Hồng Phong"], answer: 1 },
+            { question: "26. CNXHKH được Đảng ta thực hiện thành công lần đầu gắn với sự kiện nào?", options: ["A. Xây dựng XHCN ở miền Bắc", "B. Thời kỳ đổi mới", "C. Cách mạng dân tộc dân chủ nhân dân", "D. Đấu tranh thống nhất đất nước"], answer: 2 },
+            { question: "27. Công cuộc đổi mới do Đảng khởi xướng năm nào?", options: ["A. 1954", "B. 1975", "C. 1986", "D. 1991"], answer: 2 },
+            { question: "28. Nội dung nào không thuộc đóng góp lý luận của Đảng qua 35 năm đổi mới?", options: ["A. Độc lập dân tộc gắn liền với chủ nghĩa xã hội", "B. Kết hợp đổi mới kinh tế - chính trị", "C. Dân giàu nước mạnh...", "D. Kinh tế thị trường định hướng XHCN"], answer: 0 },
+            { question: "29. Đối tượng nghiên cứu của Chủ nghĩa xã hội khoa học là:", options: ["A. Quy luật chính trị - xã hội quá trình phát sinh, phát triển Hình thái KT-XH CSCN", "B. Quy luật tự nhiên", "C. Quy luật kinh tế tư bản", "D. Giai cấp công nhân"], answer: 0 },
+            { question: "30. Phương pháp nghiên cứu của Chủ nghĩa xã hội khoa học là gì?", options: ["A. Duy vật biện chứng, lịch sử, kết hợp logic và lịch sử...", "B. Giữ nguyên nội dung cũ", "C. Học thuộc tất cả", "D. Chỉ nghiên cứu thực tiễn"], answer: 0 }
+        ];
+
+        let score = 0;
+        const quizContainer = document.getElementById('quiz');
+
+        function loadQuiz() {
+            quizData.forEach((q, index) => {
+                const qCard = document.createElement('div');
+                qCard.classList.add('question-card');
+                qCard.id = `q-card-${index}`;
+                let optionsHtml = '';
+                q.options.forEach((opt, optIndex) => {
+                    optionsHtml += `<div class="option" id="label-${index}-${optIndex}" onclick="checkAnswer(${index}, ${optIndex})">${opt}</div>`;
+                });
+                qCard.innerHTML = `<div class="question-title">${q.question}</div><div id="options-${index}" class="options-container">${optionsHtml}</div>`;
+                quizContainer.appendChild(qCard);
+            });
+        }
+
+        window.checkAnswer = function(qIdx, selVal) {
+            const q = quizData[qIdx];
+            const allOptions = document.querySelectorAll(`#options-${qIdx} .option`);
+            
+            // Ngăn chặn bấm lại nhiều lần vào một câu
+            if (allOptions[0].classList.contains('disabled')) return;
+
+            allOptions.forEach(opt => opt.classList.add('disabled'));
+            
+            if (selVal === q.answer) {
+                document.getElementById(`label-${qIdx}-${selVal}`).classList.add('correct');
+                score++;
+            } else {
+                document.getElementById(`label-${qIdx}-${selVal}`).classList.add('incorrect');
+                document.getElementById(`label-${qIdx}-${q.answer}`).classList.add('correct');
+            }
+
+            // Tự động cuộn đến câu tiếp theo sau 600ms
+            setTimeout(() => {
+                const nextCard = document.getElementById(`q-card-${qIdx + 1}`);
+                if (nextCard) {
+                    nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 600);
+        };
+
+        window.showResult = function() {
+            const resContainer = document.getElementById('result-container');
+            const scoreText = document.getElementById('score-text');
+            const eval = document.getElementById('evaluation');
+            
+            resContainer.style.display = 'block';
+            scoreText.innerText = `${score} / ${quizData.length}`;
+            
+            const percent = (score / quizData.length) * 100;
+            if (percent === 100) eval.innerText = "Tuyệt vời! Không sai câu nào.";
+            else if (percent >= 80) eval.innerText = "Giỏi lắm! Bạn đã sẵn sàng đi thi.";
+            else if (percent >= 50) eval.innerText = "Tạm ổn, nhưng hãy đọc kỹ lại lý thuyết nhé.";
+            else eval.innerText = "Bạn cần ôn tập kỹ hơn rồi!";
+            
+            resContainer.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        loadQuiz();
+    </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc nghiệm CNXHKH - Câu 81-110</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f0f2f5; }
+        h1 { text-align: center; color: #1a73e8; margin-bottom: 30px; }
+        .question-card { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #1a73e8; transition: transform 0.2s; }
+        .question-title { font-weight: bold; margin-bottom: 15px; font-size: 1.1em; color: #202124; }
+        .options-container { display: flex; flex-direction: column; gap: 8px; }
+        .option { display: block; padding: 12px 15px; border: 1px solid #dadce0; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: #fff; }
+        .option:hover { background-color: #f8f9fa; border-color: #1a73e8; }
+        .option.disabled { pointer-events: none; opacity: 0.8; }
+        .correct { background-color: #e6f4ea !important; border-color: #34a853 !important; color: #137333; font-weight: bold; }
+        .incorrect { background-color: #fce8e6 !important; border-color: #ea4335 !important; color: #c5221f; text-decoration: line-through; }
+        
+        /* Phần kết quả */
+        #result-container { 
+            text-align: center; margin-top: 30px; padding: 30px; 
+            background: #fff; border-radius: 12px; display: none; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px solid #1a73e8;
+        }
+        .btn-submit {
+            display: block; width: 220px; margin: 40px auto; padding: 15px;
+            background-color: #1a73e8; color: white; border: none;
+            border-radius: 8px; font-size: 1.1em; cursor: pointer; font-weight: bold;
+        }
+        .btn-submit:hover { background-color: #1557b0; }
+        #score-text { font-size: 2em; color: #1a73e8; font-weight: bold; margin: 10px 0; }
+        .reload-btn { background: #5f6368; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>Ôn tập Chủ nghĩa xã hội khoa học (Câu 81 - 110)</h1>
+    <div id="quiz"></div>
+
+    <button class="btn-submit" onclick="showResult()">Nộp bài & Xem kết quả</button>
+    
+    <div id="result-container">
+        <h2>Kết quả của bạn</h2>
+        <div id="score-text">0/0</div>
+        <p id="evaluation" style="font-weight: bold;"></p>
+        <button class="reload-btn" onclick="location.reload()">Làm lại bài mới</button>
+    </div>
+
+    <script>
+        const quizData = [
+            { question: "81. Nhận định nào sau đây KHÔNG đúng về Chủ nghĩa xã hội?", options: ["A. Là phong trào thực tiễn chống áp bức bất công", "B. Là trào lưu tư tưởng phản ánh lý tưởng giải phóng", "C. Là một khoa học luận giải về sứ mệnh giai cấp công nhân", "D. Là một chế độ xã hội tốt đẹp, ra đời sau cách mạng giải phóng dân tộc"], answer: 3 },
+            { question: "82. Theo C. Mác và Ph. Ăngghen, hình thái KT-XH Cộng sản chủ nghĩa gồm mấy giai đoạn?", options: ["A. 2", "B. 3", "C. 4", "D. 5"], answer: 0 },
+            { question: "83. Thay thế Hình thái KT-XH TBCN bằng CSCN là quá trình lịch sử - tự nhiên nghĩa là:", options: ["A. Do mong muốn của nhân dân", "B. Là quá trình tất yếu diễn ra theo quy luật", "C. Do mong muốn giai cấp công nhân", "D. Theo ý chí nguyện vọng giai cấp lãnh đạo"], answer: 1 },
+            { question: "84. Học thuyết hình thái KT-XH của C. Mác chỉ ra sự ra đời CSCN là:", options: ["A. Nguyện vọng công nhân", "B. Quá trình lịch sử - tự nhiên", "C. Lựa chọn của Đảng", "D. Quá trình chọn lọc tự nhiên"], answer: 1 },
+            { question: "85. Tiền đề vật chất quan trọng cho quá trình “lịch sử - tự nhiên” của các hình thái KT-XH là gì?", options: ["A. Sự phát triển nhận thức", "B. Sự phát triển của lực lượng sản xuất", "C. Sự phát triển của các đảng chính trị", "D. Sự phát triển về chính trị tư tưởng"], answer: 1 },
+            { question: "86. Để Chủ nghĩa xã hội ra đời cần có mấy điều kiện cơ bản?", options: ["A. 1", "B. 2", "C. 3", "D. 4"], answer: 1 },
+            { question: "87. Điều kiện ra đời CNXH trên lĩnh vực kinh tế là gì?", options: ["A. Phát triển số lượng chất lượng công nhân", "B. Lực lượng sản xuất xã hội hóa cao mâu thuẫn quan hệ sản xuất tư hữu TBCN", "C. Mâu thuẫn công nhân - tư sản gay gắt", "D. Công nhân thực hiện cách mạng dưới lãnh đạo của Đảng"], answer: 1 },
+            { question: "88. Điều kiện ra đời của Chủ nghĩa xã hội trên lĩnh vực chính trị là gì?", options: ["A. Phát triển lực lượng sản xuất", "B. Lực lượng sản xuất phù hợp quan hệ sản xuất tư hữu", "C. Công nhân cùng tư sản xóa bỏ tư hữu", "D. Giai cấp công nhân thực hiện cách mạng vô sản dưới sự lãnh đạo của chính Đảng"], answer: 3 },
+            { question: "89. Chủ nghĩa xã hội hiện thực ra đời thời gian nào?", options: ["A. Thế kỷ XVIII", "B. Thế kỷ XIX", "C. Thế kỷ XX", "D. Thế kỷ XXI"], answer: 2 },
+            { question: "90. Mô hình chủ nghĩa xã hội hiện thực đầu tiên ra đời ở đâu?", options: ["A. Đức", "B. Nga", "C. Việt Nam", "D. Trung Quốc"], answer: 1 },
+            { question: "91. Nhận định KHÔNG đúng về đặc trưng cơ bản của chủ nghĩa xã hội?", options: ["A. Do nhân dân lao động làm chủ", "B. Kinh tế phát triển cao dựa trên lực lượng sản xuất hiện đại và chế độ tư hữu", "C. Kinh tế phát triển cao dựa trên chế độ công hữu", "D. Nhà nước kiểu mới mang bản chất công nhân"], answer: 1 },
+            { question: "92. Giai đoạn CM nào thể hiện rõ sự sáng tạo của Đảng ta khi vận dụng lý luận CM vô sản trong chính trị?", options: ["A. Thành lập Đảng 1945", "B. Trong cuộc cách mạng dân tộc, dân chủ nhân dân năm 1945", "C. Quá trình đổi mới", "D. Hội nhập kinh tế"], answer: 1 },
+            { question: "93. Lựa chọn nội dung chính xác nhất về thực chất của thời kỳ quá độ lên CNXH:", options: ["A. Xóa bỏ toàn bộ xã hội cũ", "B. Cải biến chính trị từ TBCN lên CNXH", "C. Là thời kỳ cải biến cách mạng trên tất cả các lĩnh vực lên xã hội XHCN", "D. Cải biến kinh tế từ TBCN lên CNXH"], answer: 2 },
+            { question: "94. Vì sao phải trải qua thời kỳ quá độ khi xây dựng chủ nghĩa xã hội?", options: ["A. Củng cố chế độ tư hữu", "B. Cải tạo chế độ công hữu lạc hậu", "C. Vì xã hội XHCN khác biệt về chất... cần thời gian để cải tạo xã hội", "D. Thiết lập cơ sở vật chất kỹ thuật trên nền tảng tư hữu hiện đại"], answer: 2 },
+            { question: "95. Lựa chọn nội dung đúng về đặc điểm của thời kỳ quá độ lên CNXH:", options: ["A. Còn tồn tại đan xen giữa những tàn dư xã hội cũ và yếu tố xã hội mới", "B. Đã xóa sạch tàn dư", "C. Giai cấp cũ không còn tồn tại", "D. Các tư tưởng cũ không còn tồn tại"], answer: 0 },
+            { question: "96. Nội dung đúng về đặc điểm kinh tế của thời kỳ quá độ lên CNXH:", options: ["A. Không tồn tại kinh tế tư bản", "B. Không tồn tại thành phần kinh tế đối lập", "C. Không có thành phần đối lập", "D. Tồn tại kinh tế nhiều thành phần, trong đó có thành phần đối lập"], answer: 3 },
+            { question: "97. Nội dung KHÔNG đúng về đặc điểm chính trị của thời kỳ quá độ lên CNXH:", options: ["A. Thiết lập chuyên chính vô sản", "B. Công nhân trở thành giai cấp cầm quyền", "C. Tiếp tục đấu tranh giữa công nhân và tư sản", "D. Là giai đoạn đã kết thúc cuộc đấu tranh giai cấp giữa giai cấp công nhân với tư sản"], answer: 3 },
+            { question: "98. Đặc điểm cơ bản thời kỳ quá độ lên CNXH trên lĩnh vực tư tưởng - văn hóa là gì?", options: ["A. Tồn tại đan xen những tư tưởng khác nhau", "B. Chỉ tồn tại hệ tư tưởng công nhân", "C. Hệ tư tưởng cũ giữ vai trò thống trị", "D. Giá trị văn hóa cũ được thay thế hoàn toàn"], answer: 0 },
+            { question: "99. Lựa chọn nội dung KHÔNG đúng về đặc điểm thời kỳ quá độ trên lĩnh vực xã hội:", options: ["A. Tồn tại nhiều giai cấp tầng lớp", "B. Các giai cấp trong xã hội tồn tại thống nhất, không còn sự khác biệt", "C. Vừa hợp tác vừa đấu tranh", "D. Tồn tại sự khác biệt giai cấp tầng lớp"], answer: 1 },
+            { question: "100. Nội dung KHÔNG đúng về đặc điểm thời kỳ quá độ lên CNXH ở Việt Nam?", options: ["A. Xuất phát từ nước thuộc địa nửa phong kiến", "B. CM khoa học công nghệ diễn ra mạnh mẽ", "C. Các nước khác biệt xã hội vừa hợp tác vừa đấu tranh", "D. Xuất phát từ một nước công nghiệp đã phát triển ở trình độ trung bình"], answer: 3 },
+            { question: "101. Trong thời kỳ quá độ ở VN, nội dung nào KHÔNG thể hiện sự tồn tại đan xen?", options: ["A. Tư tưởng trọng nam khinh nữ và tinh thần dân tộc", "B. Hệ tư tưởng công nhân và phong kiến", "C. Sở hữu xã hội và tư nhân", "D. Các giai cấp công, nông, tư sản, trí thức"], answer: 0 },
+            { question: "102. Cải tạo xã hội cũ cần thực hiện theo nguyên tắc gì để đảm bảo phủ định biện chứng?", options: ["A. Loại bỏ hoàn toàn yếu tố cũ", "B. Theo quy luật tự nhiên, con người không tham gia", "C. Kế thừa có chọn lọc những yếu tố của xã hội cũ, phù hợp xã hội mới", "D. Bảo tồn giữ nguyên tất cả"], answer: 2 },
+            { question: "103. Vì sao xây dựng văn hóa mới XHCN cần kế thừa giá trị truyền thống?", options: ["A. Không thể xóa bỏ", "B. Vì các giá trị văn hóa truyền thống là nền tảng cho sự phát triển của xã hội mới", "C. Tất cả đều phù hợp", "D. Nhu cầu của nhân dân"], answer: 1 },
+            { question: "104. Theo ĐH IX, con đường phát triển quá độ lên CNXH của VN có đặc điểm gì?", options: ["A. Quá độ trực tiếp", "B. Là con đường quá độ gián tiếp, bỏ qua chế độ tư bản chủ nghĩa", "C. Như các nước Đông Âu", "D. Phát triển chung của thế giới"], answer: 1 },
+            { question: "105. Hiểu thế nào về “bỏ qua việc xác lập vị trí thống trị của QHSX và KTTT tư bản chủ nghĩa”?", options: ["A. Các yếu tố TBCN không tồn tại", "B. Các yếu tố TBCN tồn tại và thống trị", "C. Các yếu tố TBCN vẫn tồn tại nhưng không giữ vị trí thống trị", "D. Chế độ tư hữu bị loại bỏ hoàn toàn"], answer: 2 },
+            { question: "106. Xây dựng kinh tế nhiều thành phần, có kinh tế tư nhân đề ra năm nào?", options: ["A. 1954", "B. 1975", "C. 1986", "D. 1989"], answer: 2 },
+            { question: "107. Một đặc trưng cơ bản mô hình CNXH Việt Nam (Cương lĩnh 2011) là gì?", options: ["A. Độc lập dân tộc gắn liền CNXH", "B. Kết hợp đổi mới kinh tế - chính trị", "C. Phát triển kinh tế thị trường định hướng XHCN", "D. Có nền kinh tế phát triển cao dựa trên LLSX hiện đại và QHSX tiến bộ phù hợp"], answer: 3 },
+            { question: "108. Nội dung KHÔNG thuộc đặc trưng cơ bản mô hình CNXH Việt Nam (2011):", options: ["A. Dân giàu nước mạnh...", "B. Độc lập dân tộc gắn liền với chủ nghĩa xã hội", "C. Kinh tế phát triển cao dựa trên QHSX phù hợp", "D. Do nhân dân làm chủ"], answer: 1 },
+            { question: "109. Cương lĩnh 2011 xác định mô hình CNXH ở Việt Nam có bao nhiêu đặc trưng?", options: ["A. 6", "B. 7", "C. 8", "D. 9"], answer: 2 },
+            { question: "110. Đặc trưng nào thể hiện thuộc tính bản chất của Chủ nghĩa xã hội?", options: ["A. Do nhân dân lao động làm chủ", "B. Nhà nước bản chất công nhân", "C. Kinh tế dựa trên chế độ công hữu", "D. Giải phóng giai cấp, dân tộc, xã hội, con người... tạo điều kiện phát triển toàn diện"], answer: 3 }
+        ];
+
+        let score = 0;
+        const quizContainer = document.getElementById('quiz');
+
+        function loadQuiz() {
+            quizData.forEach((q, index) => {
+                const qCard = document.createElement('div');
+                qCard.classList.add('question-card');
+                qCard.id = `q-card-${index}`;
+                let optionsHtml = '';
+                q.options.forEach((opt, optIndex) => {
+                    optionsHtml += `<div class="option" id="label-${index}-${optIndex}" onclick="checkAnswer(${index}, ${optIndex})">${opt}</div>`;
+                });
+                qCard.innerHTML = `<div class="question-title">${q.question}</div><div id="options-${index}" class="options-container">${optionsHtml}</div>`;
+                quizContainer.appendChild(qCard);
+            });
+        }
+
+        window.checkAnswer = function(qIdx, selVal) {
+            const q = quizData[qIdx];
+            const allOptions = document.querySelectorAll(`#options-${qIdx} .option`);
+            
+            if (allOptions[0].classList.contains('disabled')) return;
+            allOptions.forEach(opt => opt.classList.add('disabled'));
+            
+            if (selVal === q.answer) {
+                document.getElementById(`label-${qIdx}-${selVal}`).classList.add('correct');
+                score++;
+            } else {
+                document.getElementById(`label-${qIdx}-${selVal}`).classList.add('incorrect');
+                document.getElementById(`label-${qIdx}-${q.answer}`).classList.add('correct');
+            }
+
+            setTimeout(() => {
+                const nextCard = document.getElementById(`q-card-${qIdx + 1}`);
+                if (nextCard) {
+                    nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 600);
+        };
+
+        window.showResult = function() {
+            const resContainer = document.getElementById('result-container');
+            const scoreText = document.getElementById('score-text');
+            const eval = document.getElementById('evaluation');
+            
+            resContainer.style.display = 'block';
+            scoreText.innerText = `${score} / ${quizData.length}`;
+            
+            const percent = (score / quizData.length) * 100;
+            if (percent === 100) eval.innerText = "Tuyệt vời! Bạn đã thấu hiểu Hình thái kinh tế - xã hội CSCN.";
+            else if (percent >= 80) eval.innerText = "Rất tốt! Bạn nắm chắc kiến thức về Thời kỳ quá độ.";
+            else if (percent >= 50) eval.innerText = "Tạm ổn. Hãy đọc kỹ hơn Cương lĩnh 2011 nhé.";
+            else eval.innerText = "Kiến thức về CNXH còn hơi hổng, cần ôn tập thêm!";
+            
+            resContainer.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        loadQuiz();
+    </script>
+</body>
+</html>

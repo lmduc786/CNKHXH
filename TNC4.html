@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc nghiệm CNXHKH - Câu 111-168</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f0f2f5; }
+        h1 { text-align: center; color: #1a73e8; margin-bottom: 30px; }
+        .question-card { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #1a73e8; transition: transform 0.2s; }
+        .question-title { font-weight: bold; margin-bottom: 15px; font-size: 1.1em; color: #202124; }
+        .options-container { display: flex; flex-direction: column; gap: 8px; }
+        .option { display: block; padding: 12px 15px; border: 1px solid #dadce0; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: #fff; }
+        .option:hover { background-color: #f8f9fa; border-color: #1a73e8; }
+        .option.disabled { pointer-events: none; opacity: 0.8; }
+        .correct { background-color: #e6f4ea !important; border-color: #34a853 !important; color: #137333; font-weight: bold; }
+        .incorrect { background-color: #fce8e6 !important; border-color: #ea4335 !important; color: #c5221f; text-decoration: line-through; }
+        
+        /* Phần kết quả */
+        #result-container { 
+            text-align: center; margin-top: 30px; padding: 30px; 
+            background: #fff; border-radius: 12px; display: none; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px solid #1a73e8;
+        }
+        .btn-submit {
+            display: block; width: 220px; margin: 40px auto; padding: 15px;
+            background-color: #1a73e8; color: white; border: none;
+            border-radius: 8px; font-size: 1.1em; cursor: pointer; font-weight: bold;
+        }
+        .btn-submit:hover { background-color: #1557b0; }
+        #score-text { font-size: 2em; color: #1a73e8; font-weight: bold; margin: 10px 0; }
+        .reload-btn { background: #5f6368; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>Ôn tập Chủ nghĩa xã hội khoa học (Câu 111 - 168)</h1>
+    <div id="quiz"></div>
+
+    <button class="btn-submit" onclick="showResult()">Nộp bài & Xem kết quả</button>
+    
+    <div id="result-container">
+        <h2>Kết quả của bạn</h2>
+        <div id="score-text">0/0</div>
+        <p id="evaluation" style="font-weight: bold;"></p>
+        <button class="reload-btn" onclick="location.reload()">Làm lại bài mới</button>
+    </div>
+
+    <script>
+        const quizData = [
+            { question: "111. Thuật ngữ “Dân chủ” ra đời từ thời kỳ nào? ", options: ["A. Cổ đại", "B. Trung đại", "C. Cận đại", "D. Hiện đại"], answer: 0 },
+            { question: "112. Theo quan điểm của Chủ nghĩa Mác – Lênin, dân chủ gồm mấy nội dung cơ bản? ", options: ["A. 1", "B. 2", "C. 3", "D. 4"], answer: 2 },
+            { question: "113. Theo CN Mác – Lênin, dân chủ được tiếp cận trên những phương diện nào? ", options: ["A. Quyền lực, kinh tế, chế độ xã hội", "B. Quyền lực, chế độ xã hội và chính trị, tổ chức và quản lý xã hội", "C. Quyền lực, kinh tế, tổ chức và quản lý", "D. Quyền lực, văn hóa, chế độ xã hội"], answer: 1 },
+            { question: "114. Theo quan điểm của chủ nghĩa Mác – Lênin, dân chủ là quyền lực thuộc về: ", options: ["A. Tư sản", "B. Nông dân", "C. Công nhân", "D. Nhân dân"], answer: 3 },
+            { question: "115. Chế độ dân chủ đầu tiên ra đời gắn với xã hội nào? ", options: ["A. Cộng sản nguyên thủy", "B. Chiếm hữu nô lệ", "C. Phong kiến", "D. Tư bản chủ nghĩa"], answer: 1 },
+            { question: "116. Nền dân chủ XHCN đầu tiên chính thức được xác lập khi nào, ở đâu? ", options: ["A. Công xã Pari 1871, Pháp", "B. Sau Cách mạng tháng 10 năm 1917, ở Nga", "C. Sau Cách mạng tháng 8 1945, VN", "D. Năm 1975, VN"], answer: 1 },
+            { question: "117. Nền dân chủ xã hội chủ nghĩa mang bản chất giai cấp/tầng lớp nào? ", options: ["A. Giai cấp công nhân", "B. Giai cấp nông dân", "C. Tầng lớp trí thức", "D. Tầng lớp doanh nhân"], answer: 0 },
+            { question: "118. Nhà nước xã hội chủ nghĩa đầu tiên trong lịch sử là: ", options: ["A. Công xã Paris", "B. Liên bang Cộng hòa xã hội chủ nghĩa Xô viết", "C. CH dân chủ Đức", "D. CH nhân dân Trung Hoa"], answer: 1 },
+            { question: "119. Điểm khác nhau cơ bản của chế độ quân chủ so với chế độ dân chủ là gì? ", options: ["A. Quân chủ, quyền lực thuộc về nhân dân", "B. Quân chủ, quyền lực thuộc về Vua và nhân dân", "C. Trong chế độ quân chủ, quyền lực nhà nước không thuộc về nhân dân", "D. Quân chủ, quyền lực không thuộc về Vua"], answer: 2 },
+            { question: "120. “Thực hành dân chủ là cái chìa khoá vạn năng có thể giải quyết mọi khó khăn” là câu nói của: ", options: ["A. V.I. Lênin", "B. Mao Trạch Đông", "C. Hồ Chí Minh", "D. Lê Duẩn"], answer: 2 },
+            { question: "121. So với các nền dân chủ lịch sử, dân chủ XHCN có điểm khác biệt cơ bản nào? ", options: ["A. Phục vụ lợi ích thiểu số", "B. Phi giai cấp", "C. Mang bản chất nhiều giai cấp", "D. Là nền dân chủ rộng rãi cho giai cấp công nhân và nhân dân lao động"], answer: 3 },
+            { question: "122. “Dân chủ vô sản so với dân chủ tư sản dân chủ hơn gấp triệu lần” là câu nói của: ", options: ["A. C.Mác và Ph.Ănghen", "B. V.I. Lênin", "C. Hồ Chí Minh", "D. J. Stalin"], answer: 1 },
+            { question: "123. Chế độ nhất nguyên về chính trị là: ", options: ["A. Do nhiều giai cấp và đảng lãnh đạo", "B. Chế độ do một giai cấp và một đảng duy nhất lãnh đạo", "C. Do nhiều đảng liên minh", "D. Do nhiều giai cấp và một đảng"], answer: 1 },
+            { question: "124. Bản chất chính trị của nhà nước xã hội chủ nghĩa gì? ", options: ["A. Mang bản chất dân tộc", "B. Mang bản chất nông dân", "C. Mang bản chất giai cấp công nhân, tính nhân dân rộng rãi và tính dân tộc sâu sắc", "D. Mang tính nhân dân và dân tộc sâu sắc"], answer: 2 },
+            { question: "125. Khác biệt trong chức năng trấn áp của nhà nước tư sản và nhà nước XHCN? ", options: ["A. Tư sản: thiểu số lao động áp bức đa số bóc lột", "B. Nhà nước tư sản là thiểu số bóc lột đối với đa số lao động; nhà nước XHCN là đa số lao động đối với thiểu số bóc lột", "C. Tư sản: thiểu số bóc lột đối với đa số; XHCN: thiểu số lao động đối với đa số bóc lột", "D. Cả hai đều là đa số trấn áp thiểu số"], answer: 1 },
+            { question: "126. Theo quan niệm chung, nhà nước pháp quyền có đặc điểm gì nổi bật nhất? ", options: ["A. Thượng tôn pháp luật, mọi tổ chức, cá nhân đều tuân theo pháp luật", "B. Pháp luật do người đứng đầu chi phối", "C. Pháp luật dưới quyền người đứng đầu", "D. Hương ước vị trí cao nhất"], answer: 0 },
+            { question: "127. Nhà nước xã hội chủ nghĩa ra đời khi nào? ", options: ["A. Sau cách mạng công nghiệp 2", "B. Sau cách mạng công nghiệp 3", "C. Sau khi cách mạng xã hội chủ nghĩa thành công", "D. Sau đấu tranh ở Đức"], answer: 2 },
+            { question: "128. Bản chất dân chủ XHCN được thực hiện bằng nhà nước pháp quyền, đặt dưới lãnh đạo của Đảng và... ", options: ["A. Pháp luật", "B. Tự do", "C. Công bằng", "D. Quyền lực"], answer: 0 },
+            { question: "129. Cách mạng xã hội chủ nghĩa do giai cấp nào lãnh đạo? ", options: ["A. Giai cấp công nhân", "B. Công nhân, tư sản, nông dân", "C. Công nhân, nông dân, trí thức", "D. Công nhân và nông dân"], answer: 0 },
+            { question: "130. Căn cứ vào phạm vi tác động quyền lực, Nhà nước XHCN có những chức năng nào? ", options: ["A. Chính trị, kinh tế, văn hóa, xã hội", "B. Trấn áp", "C. Tổ chức xây dựng", "D. Chức năng đối nội và chức năng đối ngoại"], answer: 3 },
+            { question: "131. Nền dân chủ đầu tiên trong lịch sử là: ", options: ["A. Dân chủ nguyên thủy", "B. Dân chủ chủ nô", "C. Dân chủ tư sản", "D. Dân chủ XHCN"], answer: 1 },
+            { question: "132. Mục tiêu cơ bản của cách mạng xã hội chủ nghĩa là gì? ", options: ["A. Giành chính quyền về tay nông dân", "B. Giành chính quyền về tay giai cấp công nhân và nhân dân lao động", "C. Giành chính quyền về tay công nhân", "D. Giành chính quyền về tay trí thức"], answer: 1 },
+            { question: "133. Chế độ đa nguyên về chính trị là: ", options: ["A. Chế độ do nhiều giai cấp và nhiều đảng lãnh đạo", "B. Một giai cấp một đảng", "C. Nhiều đảng liên minh", "D. Một giai cấp nhiều đảng"], answer: 0 },
+            { question: "134. Bản chất dân chủ XHCN Việt Nam thể hiện qua hình thức nào? ", options: ["A. Dân chủ trực tiếp và gián tiếp", "B. Chỉ gián tiếp", "C. Chỉ đại diện", "D. Chỉ trực tiếp"], answer: 0 },
+            { question: "135. Mối quan hệ giữa dân chủ XHCN và nhà nước XHCN, dân chủ có vai trò: ", options: ["A. Dân chủ xã hội chủ nghĩa là cơ sở, nền tảng cho việc xây dựng và hoạt động của NN XHCN", "B. Tách rời nhà nước", "C. Công cụ của người đứng đầu", "D. Ra đời sau nhà nước"], answer: 0 },
+            { question: "136. Trong các chế độ xã hội sau, chế độ xã hội nào KHÔNG có nền dân chủ? ", options: ["A. XHCN", "B. Chiếm hữu nô lệ", "C. Phong kiến", "D. Tư bản chủ nghĩa"], answer: 2 },
+            { question: "137. Theo CN Mác – Lênin, chế độ xã hội nào nền dân chủ thuộc về đa số? ", options: ["A. Chiếm hữu nô lệ", "B. Phong kiến", "C. Tư bản chủ nghĩa", "D. Xã hội chủ nghĩa"], answer: 3 },
+            { question: "138. Phương diện nào thì dân chủ là một nguyên tắc (nguyên tắc dân chủ)? ", options: ["A. Quyền lực", "B. Chế độ xã hội", "C. Phương diện tổ chức và quản lý xã hội", "D. Kinh tế"], answer: 2 },
+            { question: "139. Điều gì là mục tiêu, tiền đề và phương tiện để giải phóng con người? ", options: ["A. Chiến tranh", "B. Dân chủ", "C. Đấu tranh độc lập", "D. Giàu sang"], answer: 1 },
+            { question: "140. Nền dân chủ xã hội chủ nghĩa còn được gọi là: ", options: ["A. Dân chủ tư sản", "B. Dân chủ vô sản", "C. Dân chủ chủ nô", "D. Dân chủ lập hiến"], answer: 1 },
+            { question: "141. Sự kiện gắn liền với sự ra đời nhà nước XHCN đầu tiên trên thế giới? ", options: ["A. Công xã Pari", "B. Hiến chương ở Anh", "C. Cách mạng Tháng Mười Nga", "D. Giải phóng dân tộc VN"], answer: 2 },
+            { question: "142. Càng hoàn thiện bao nhiêu, nền dân chủ XHCN lại càng... bấy nhiêu ", options: ["A. Tự tiêu vong", "B. Vững mạnh", "C. Phát triển", "D. Ổn định"], answer: 0 },
+            { question: "143. Đặc điểm cơ bản của nền dân chủ xã hội chủ nghĩa là gì? ", options: ["A. Đặt dưới sự lãnh đạo của Đảng Cộng sản", "B. Lãnh đạo bởi Chủ tịch nước", "C. Lãnh đạo bởi Quốc hội", "D. Lãnh đạo bởi Tổng bí thư"], answer: 0 },
+            { question: "144. Nền dân chủ XHCN lấy hệ tư tưởng nào làm chủ đạo? ", options: ["A. Nông dân", "B. Tư sản", "C. Trí thức", "D. Hệ tư tưởng của giai cấp công nhân"], answer: 3 },
+            { question: "145. Nội dung thể hiện tính ưu việt về bản chất của Nhà nước XHCN? ", options: ["A. Thiểu số bóc lột đa số", "B. Đa số bóc lột thiểu số", "C. Sự thống trị của đa số đối với thiểu số giai cấp bóc lột", "D. Thiểu số đối với đa số bóc lột"], answer: 2 },
+            { question: "146. Nhà nước XHCN là kiểu nhà nước thống trị chính trị thuộc về: ", options: ["A. Nông dân", "B. Trí thức", "C. Giai cấp công nhân", "D. Quân đội"], answer: 2 },
+            { question: "147. Căn cứ tính chất quyền lực, chức năng nhà nước được chia thành: ", options: ["A. Đối ngoại, đối nội", "B. Chức năng giai cấp (trấn áp), chức năng xã hội (tổ chức và xây dựng)", "C. Chính trị, kinh tế, văn hóa", "D. Kiểm soát tự do"], answer: 1 },
+            { question: "148. Khác biệt cơ bản dân chủ XHCN so với các nền dân chủ lịch sử: ", options: ["A. Nền dân chủ của đa số quần chúng nhân dân lao động", "B. Của thiểu số nhân dân", "C. Phi giai cấp", "D. Đa nguyên chính trị"], answer: 0 },
+            { question: "149. Nhà nước XHCN vừa mang bản chất công nhân, vừa có tính nhân dân và tính... ", options: ["A. Dân tộc", "B. Giai cấp", "C. Cộng đồng", "D. Nhân đạo"], answer: 0 },
+            { question: "150. Công cụ hiệu quả nhất để nhà nước pháp quyền XHCN quản lý xã hội là: ", options: ["A. Kế hoạch", "B. Pháp luật", "C. Chính sách", "D. Chủ trương"], answer: 1 },
+            { question: "151. Nhà nước pháp quyền XHCN Việt Nam có bao nhiêu đặc điểm cơ bản? ", options: ["A. 6", "B. 7", "C. 8", "D. 9"], answer: 0 },
+            { question: "152. Quyền lực nhà nước thống nhất, có sự phân công và... giữa lập pháp, hành pháp, tư pháp ", options: ["A. Kiểm tra", "B. Kiểm soát", "C. Thực hiện", "D. Phân cấp"], answer: 1 },
+            { question: "153. Đặc điểm của nhà nước pháp quyền xã hội chủ nghĩa ở Việt Nam: ", options: ["A. Do nhân dân lãnh đạo", "B. Phải do Đảng Cộng sản Việt Nam lãnh đạo", "C. Do Mặt trận Tổ quốc", "D. Do Quốc hội"], answer: 1 },
+            { question: "154. Triển khai mấy phương hướng xây dựng hoàn thiện Nhà nước pháp quyền? ", options: ["A. 1", "B. 2", "C. 3", "D. 4"], answer: 3 },
+            { question: "155. Phòng chống tham nhũng, lãng phí là nhiệm vụ: ", options: ["A. Cơ bản", "B. Quan trọng", "C. Cấp bách, lâu dài", "D. Cần thiết"], answer: 2 },
+            { question: "156. Nhà tư tưởng Hy Lạp cổ đại sử dụng thuật ngữ nào nói về dân chủ? ", options: ["A. Demokratos", "B. Demo", "C. Kratos", "D. Democracy"], answer: 0 },
+            { question: "157. Trong lịch sử, có bao nhiêu nền dân chủ với tư cách hình thái nhà nước? ", options: ["A. 1", "B. 2", "C. 3", "D. 4"], answer: 2 },
+            { question: "158. Vai trò nhà nước trong mối quan hệ với dân chủ XHCN: ", options: ["A. Công cụ của người đứng đầu", "B. Nhà nước XHCN là công cụ quan trọng cho việc thực thi quyền làm chủ của nhân dân", "C. Công cụ phát triển kinh tế", "D. Công cụ giai cấp cầm quyền"], answer: 1 },
+            { question: "159. Xét phương diện nào dân chủ là một hình thái nhà nước? ", options: ["A. Quyền lực", "B. Phương diện chế độ xã hội và trong lĩnh vực chính trị", "C. Tổ chức quản lý", "D. Kinh tế - xã hội"], answer: 1 },
+            { question: "160. Chế độ dân chủ ở Việt Nam ra đời khi nào? ", options: ["A. Sau Cách mạng Tháng Tám, năm 1945", "B. Năm 1954", "C. Năm 1975", "D. Năm 1986"], answer: 0 },
+            { question: "161. Trong bộ máy Nhà nước Việt Nam hiện nay, Quốc hội có chức năng: ", options: ["A. Hành pháp", "B. Tư pháp", "C. Lập pháp", "D. Bảo vệ pháp luật"], answer: 2 },
+            { question: "162. Hoạt động nào thể hiện hình thức dân chủ trực tiếp ở Việt Nam? ", options: ["A. Công dân thực hiện bỏ phiếu bầu đại biểu Quốc Hội", "B. Bầu Chủ tịch nước", "C. Bầu Thủ tướng", "D. Bầu Tổng Bí thư"], answer: 0 },
+            { question: "163. Hoạt động nào thể hiện hình thức dân chủ gián tiếp ở Việt Nam? ", options: ["A. Bầu HĐND các cấp", "B. Đại biểu Quốc hội thực hiện bỏ phiếu bầu Chủ tịch nước", "C. Công dân bầu Thủ tướng", "D. Công dân bầu Tổng Bí thư"], answer: 1 },
+            { question: "164. Lần đầu nhân dân VN chính thức thực hiện dân chủ lập ra bộ máy nhà nước năm nào? ", options: ["A. 1945", "B. Năm 1946", "C. 1954", "D. 1975"], answer: 1 },
+            { question: "165. Vì sao chế độ phong kiến KHÔNG được coi là nền dân chủ? ", options: ["A. Quyền lực thuộc thiểu số bóc lột", "B. Thuộc bộ phận nhân dân", "C. Vì quyền lực nhà nước không thuộc về nhân dân", "D. Thuộc giai cấp thống trị"], answer: 2 },
+            { question: "166. Nội dung thể hiện bản chất kinh tế của nền dân chủ xã hội chủ nghĩa? ", options: ["A. Lãnh đạo của công nhân", "B. Chế độ công hữu về những tư liệu sản xuất chủ yếu...", "C. Hệ tư tưởng Mác-Lênin", "D. Sản xuất hiện đại"], answer: 1 },
+            { question: "167. Nội dung thể hiện bản chất chính trị của nền dân chủ xã hội chủ nghĩa? ", options: ["A. Sự lãnh đạo của giai cấp công nhân", "B. Chế độ công hữu", "C. Hệ tư tưởng Mác-Lênin", "D. Sản xuất hiện đại"], answer: 0 },
+            { question: "168. Nội dung thể hiện bản chất tư tưởng văn hóa – xã hội dân chủ XHCN? ", options: ["A. Lãnh đạo của công nhân", "B. Chế độ công hữu", "C. Chủ nghĩa Mác – Lênin làm chủ đạo...", "D. Giá trị truyền thống"], answer: 2 }
+        ];
+
+        let score = 0;
+        const quizContainer = document.getElementById('quiz');
+
+        function loadQuiz() {
+            quizData.forEach((q, index) => {
+                const qCard = document.createElement('div');
+                qCard.classList.add('question-card');
+                qCard.id = `q-card-${index}`;
+                let optionsHtml = '';
+                q.options.forEach((opt, optIndex) => {
+                    optionsHtml += `<div class="option" id="label-${index}-${optIndex}" onclick="checkAnswer(${index}, ${optIndex})">${opt}</div>`;
+                });
+                qCard.innerHTML = `<div class="question-title">${q.question}</div><div id="options-${index}" class="options-container">${optionsHtml}</div>`;
+                quizContainer.appendChild(qCard);
+            });
+        }
+
+        window.checkAnswer = function(qIdx, selVal) {
+            const q = quizData[qIdx];
+            const allOptions = document.querySelectorAll(`#options-${qIdx} .option`);
+            
+            if (allOptions[0].classList.contains('disabled')) return;
+            allOptions.forEach(opt => opt.classList.add('disabled'));
+            
+            if (selVal === q.answer) {
+                document.getElementById(`label-${qIdx}-${selVal}`).classList.add('correct');
+                score++;
+            } else {
+                document.getElementById(`label-${qIdx}-${selVal}`).classList.add('incorrect');
+                document.getElementById(`label-${qIdx}-${q.answer}`).classList.add('correct');
+            }
+
+            setTimeout(() => {
+                const nextCard = document.getElementById(`q-card-${qIdx + 1}`);
+                if (nextCard) {
+                    nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 600);
+        };
+
+        window.showResult = function() {
+            const resContainer = document.getElementById('result-container');
+            const scoreText = document.getElementById('score-text');
+            const eval = document.getElementById('evaluation');
+            
+            resContainer.style.display = 'block';
+            scoreText.innerText = `${score} / ${quizData.length}`;
+            
+            const percent = (score / quizData.length) * 100;
+            if (percent === 100) eval.innerText = "Xuất sắc! Bạn đã nắm vững lý luận về Dân chủ và Nhà nước XHCN.";
+            else if (percent >= 80) eval.innerText = "Rất tốt! Bạn hiểu sâu về bản chất Nhà nước pháp quyền VN.";
+            else if (percent >= 50) eval.innerText = "Tạm ổn. Hãy lưu ý kỹ sự khác biệt giữa dân chủ trực tiếp và gián tiếp nhé.";
+            else eval.innerText = "Phần Dân chủ và Nhà nước khá khó, bạn nên xem lại bài giảng một lần nữa.";
+            
+            resContainer.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        loadQuiz();
+    </script>
+</body>
+</html>
